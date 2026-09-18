@@ -19,10 +19,40 @@ load_dotenv(BASE_DIR / ".env")
 
 
 def _bool(name: str, default: bool = False) -> bool:
+    """Same "blank means unset" reasoning as _int()/_float() below. Without
+    the blank check, MOCK_ABDM=<empty> in a dashboard would silently flip
+    from its True default to False — the app would try a real ABDM sandbox
+    call instead of the mock OTP flow, with no crash and no obvious error,
+    just a demo that mysteriously stopped working. Blank now behaves
+    exactly like the variable was never set."""
     raw = os.getenv(name)
-    if raw is None:
+    if raw is None or not raw.strip():
         return default
     return raw.strip().lower() in {"1", "true", "yes", "on"}
+
+
+def _int(name: str, default: int) -> int:
+    """int(os.getenv(name, default)) looks safe and is not: it only falls
+    back to the default when the variable is completely UNSET. A variable
+    that exists but is blank (a common shape for how hosting dashboards —
+    Vercel included — store an env var someone added and left empty)
+    returns "" from getenv, and int("") raises ValueError before the app
+    even finishes importing. This treats missing AND blank the same way:
+    both fall back to default. An actually-invalid value (someone typing
+    "abc") still raises, which is correct — that is a real misconfiguration
+    worth failing loudly on, not a value worth silently swallowing."""
+    raw = os.getenv(name)
+    if raw is None or not raw.strip():
+        return default
+    return int(raw.strip())
+
+
+def _float(name: str, default: float) -> float:
+    """Same reasoning as _int() above, for the one float-valued setting."""
+    raw = os.getenv(name)
+    if raw is None or not raw.strip():
+        return default
+    return float(raw.strip())
 
 
 class Config:
@@ -86,7 +116,7 @@ class Config:
     GROQ_VISION_MODEL = os.getenv("GROQ_VISION_MODEL", "qwen/qwen3.8-27b").strip()
     OPENROUTER_API_KEY = os.getenv("OPENROUTER_API_KEY", "").strip()
     OPENROUTER_MODEL = os.getenv("OPENROUTER_MODEL", "google/gemini-2.0-flash-exp:free").strip()
-    AI_TIMEOUT = int(os.getenv("AI_TIMEOUT", "45"))
+    AI_TIMEOUT = _int("AI_TIMEOUT", 45)
 
     # ---- ABDM -----------------------------------------------------------
     # Real sandbox creds slot in here. Until then MOCK_ABDM keeps the same
@@ -131,12 +161,11 @@ class Config:
     # The default published pipeline ID for ASR+Translation+TTS, per
     # Bhashini's own example integrations. Overridable in case the account
     # is issued a different one.
-    BHASHINI_TIMEOUT = int(os.getenv("BHASHINI_TIMEOUT", "20"))
+    BHASHINI_TIMEOUT = _int("BHASHINI_TIMEOUT", 20)
     # Config-call responses (service IDs per language) are cached in memory
     # for this many seconds, since they rarely change and a config round
     # trip before every single utterance would be wasteful.
-    BHASHINI_CONFIG_CACHE_SECONDS = int(
-        os.getenv("BHASHINI_CONFIG_CACHE_SECONDS", "3600"))
+    BHASHINI_CONFIG_CACHE_SECONDS = _int("BHASHINI_CONFIG_CACHE_SECONDS", 3600)
 
     # ---- Uploads --------------------------------------------------------
     UPLOAD_FOLDER = BASE_DIR / "uploads"
@@ -144,5 +173,5 @@ class Config:
     ALLOWED_EXTENSIONS = {"png", "jpg", "jpeg", "webp", "pdf"}
 
     # ---- Clinical safety knobs -----------------------------------------
-    CONSENT_DEFAULT_HOURS = int(os.getenv("CONSENT_DEFAULT_HOURS", "24"))
-    LOW_CONFIDENCE_THRESHOLD = float(os.getenv("LOW_CONFIDENCE_THRESHOLD", "0.75"))
+    CONSENT_DEFAULT_HOURS = _int("CONSENT_DEFAULT_HOURS", 24)
+    LOW_CONFIDENCE_THRESHOLD = _float("LOW_CONFIDENCE_THRESHOLD", 0.75)
