@@ -18,11 +18,27 @@ def landing():
     session["ui_lang"] = i18n.resolve_locale()
     session.setdefault("language", session["ui_lang"])
 
+    # These four counts are decoration for the landing page (a few stat
+    # numbers), not anything the page structurally needs. A database that
+    # is unreachable — a cold Supabase instance waking up, a misconfigured
+    # DATABASE_URL, a network blip on the platform — must never turn the
+    # front door of the whole site into a 500. Every query here is
+    # independently guarded so one failing does not take the others down
+    # with it, and the page renders with whatever numbers it managed to
+    # get, zero for the rest.
+    def _safe_count(query_fn):
+        try:
+            return query_fn()
+        except Exception as exc:  # noqa: BLE001
+            current_app.logger.warning("Landing stat query failed: %s", exc)
+            return 0
+
     stats = {
-        "questions": QuestionNode.query.filter_by(active=True).count(),
-        "codes": NamasteCode.query.count(),
-        "rules": rule_count(),
-        "cases": CaseEntry.query.count(),
+        "questions": _safe_count(
+            lambda: QuestionNode.query.filter_by(active=True).count()),
+        "codes": _safe_count(lambda: NamasteCode.query.count()),
+        "rules": _safe_count(rule_count),
+        "cases": _safe_count(lambda: CaseEntry.query.count()),
     }
     return render_template("landing.html", stats=stats)
 
@@ -58,6 +74,19 @@ def _system_info():
         db_ok = True
     except Exception:  # noqa: BLE001
         db_ok = False
+
+    # A diagnostic page's entire purpose is to say what is wrong — it must
+    # be the one page that survives whatever it is reporting on. If the
+    # database is down, db_ok above already caught that; the three counts
+    # below query it again and would otherwise raise a second, unhandled
+    # exception right past the point of this function, turning /status and
+    # /healthz into 500s exactly when someone most needs them to load.
+    def _safe_count(query_fn):
+        try:
+            return query_fn()
+        except Exception:  # noqa: BLE001
+            return None
+
     return {
         "database": "Supabase Postgres" if cfg["USING_POSTGRES"] else "SQLite (offline fallback)",
         "database_reachable": db_ok,
@@ -66,7 +95,8 @@ def _system_info():
         "speech_provider": bhashini.status_label(),
         "bhashini_enabled": bhashini.available(),
         "abdm": "Mock identity service" if cfg["MOCK_ABDM"] else "ABDM sandbox",
-        "question_nodes": QuestionNode.query.filter_by(active=True).count(),
-        "namaste_codes": NamasteCode.query.count(),
-        "triage_rules": rule_count(),
+        "question_nodes": _safe_count(
+            lambda: QuestionNode.query.filter_by(active=True).count()),
+        "namaste_codes": _safe_count(lambda: NamasteCode.query.count()),
+        "triage_rules": _safe_count(rule_count),
     }
