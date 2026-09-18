@@ -1,0 +1,83 @@
+{% extends "clinician/_console.html" %}
+{% block title %}Access locked{% endblock %}
+
+{% block console %}
+<div class="page-head">
+  <div>
+    <h1>This record is locked</h1>
+    <p>{{ patient.name }} has not granted you access, or the grant has expired.</p>
+  </div>
+</div>
+
+<div class="card" style="max-width:640px">
+  <div class="card-body">
+    <p style="margin:0 0 16px;font-size:14.5px">
+      A practitioner can only open a record while the patient's consent artefact
+      is active. This is not a display rule — the case sheet, the documents and
+      the export endpoints all refuse the request, and the refusal itself has
+      been written to the audit trail.
+    </p>
+
+    <dl class="kv" style="margin-bottom:18px">
+      <dt>Patient</dt><dd>{{ patient.name }} · {{ patient.abha_address }}</dd>
+      <dt>You</dt><dd>{{ doctor.name }} · {{ doctor.hpr_id }}</dd>
+      <dt>Status</dt>
+      <dd>
+        {% if open_request %}
+          Request sent {{ open_request.requested_at.strftime('%d %b, %H:%M') }},
+          waiting for the patient to approve it
+        {% else %}
+          No request on file
+        {% endif %}
+      </dd>
+    </dl>
+
+    {% if open_request %}
+    <div class="banner gold" style="margin:0 0 16px">
+      <h3>Waiting on the patient</h3>
+      <p style="margin:6px 0 0;font-size:13.5px">
+        {{ patient.name }} can approve this themselves on the terminal, under
+        <b>Manage who can see my record</b> — but if they have already left the
+        terminal and have no smartphone to hand, that screen is out of reach for
+        them. In that case, ask them to read out the code they were shown (or
+        that was sent to them) and enter it below to unlock access yourself.
+      </p>
+
+      <form method="post"
+            action="{{ url_for('clinician.verify_consent_otp', req_id=open_request.id) }}"
+            style="margin-top:14px;display:flex;gap:8px;align-items:flex-end;flex-wrap:wrap">
+        <div class="field" style="margin:0">
+          <label for="otp">Code the patient read out</label>
+          <input type="text" id="otp" name="otp" inputmode="numeric" maxlength="6"
+                 autocomplete="off" placeholder="6-digit code" required
+                 style="font-size:18px;letter-spacing:.2em;width:9em">
+        </div>
+        <button class="btn btn-gold" type="submit">Unlock access</button>
+      </form>
+
+      <form method="post"
+            action="{{ url_for('clinician.resend_consent_otp', req_id=open_request.id) }}"
+            style="margin-top:8px">
+        <button class="btn btn-ghost btn-sm" type="submit">
+          Send a new code
+        </button>
+      </form>
+    </div>
+    {% else %}
+    <form method="post"
+          action="{{ url_for('clinician.request_consent', patient_id=patient.id) }}">
+      <div class="field">
+        <label for="purpose">Why do you need this record?</label>
+        <input type="text" id="purpose" name="purpose"
+               value="Today's OPD consultation">
+      </div>
+      <button class="btn btn-gold" type="submit">Request access</button>
+    </form>
+    {% endif %}
+
+    <p style="margin:16px 0 0">
+      <a href="{{ url_for('clinician.queue') }}">Back to the queue</a>
+    </p>
+  </div>
+</div>
+{% endblock %}

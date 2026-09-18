@@ -1,0 +1,95 @@
+{% extends "patient/_kiosk.html" %}
+{% block title %}{{ t('requests_title') }}{% endblock %}
+{% block screenname %}{{ t('requests_title') }}{% endblock %}
+
+{% block kiosk %}
+<h1>{{ t('requests_title') }}</h1>
+<p class="sub">{{ t('requests_sub') }}</p>
+
+{% if not requests %}
+<div class="kiosk-card">
+  <p style="margin:0;font-size:18px;color:rgba(255,255,255,.7)">
+    {{ t('requests_empty') }}
+  </p>
+</div>
+{% endif %}
+
+{% for req in requests %}
+<div class="kiosk-card">
+  <div style="display:flex;justify-content:space-between;gap:14px;align-items:baseline">
+    <div>
+      <b style="font-size:21px">{{ req.doctor.name }}</b>
+      <div style="font-size:15px;color:rgba(255,255,255,.55)">
+        {{ req.doctor.department }} · {{ req.doctor.hpr_id }}
+      </div>
+    </div>
+    <span class="tag {% if req.is_live %}tag-green{% elif req.status == 'requested' %}tag-gold{% endif %}">
+      {{ req.status }}
+    </span>
+  </div>
+
+  <p style="font-size:16px;margin:14px 0 6px">{{ t('requests_reason') }} {{ req.purpose }}</p>
+  <p style="font-size:14px;color:rgba(255,255,255,.5);margin:0">
+    {{ t('requests_scope') }} {{ (req.scope or [])|join(', ') }}
+    {% if req.expires_at %} · {{ t('requests_expires') }} {{ req.expires_at.strftime('%d %b at %H:%M') }}{% endif %}
+  </p>
+
+  {% if req.status == 'requested' %}
+  <form method="post" action="{{ url_for('patient.decide_request', req_id=req.id) }}"
+        style="margin-top:16px">
+    <div class="field">
+      <label for="otp{{ req.id }}">{{ t('requests_otp_label') }}</label>
+      <div class="field-input-row">
+        <input type="text" id="otp{{ req.id }}" name="otp" maxlength="6"
+               inputmode="numeric" style="font-size:26px;letter-spacing:.25em">
+        <button type="button" class="field-mic" data-target="otp{{ req.id }}"
+                data-locale="{{ speech_locale }}"
+                aria-label="{{ t('field_mic_label') }}">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor"
+               stroke-width="2" stroke-linecap="round">
+            <rect x="9" y="2" width="6" height="12" rx="3" fill="currentColor" stroke="none"/>
+            <path d="M5 11a7 7 0 0 0 14 0"/><path d="M12 18v4"/>
+          </svg>
+        </button>
+      </div>
+    </div>
+    <div style="display:flex;gap:10px;flex-wrap:wrap">
+      <button class="kiosk-btn" type="submit" name="decision" value="grant">{{ t('requests_approve') }}</button>
+      <button class="kiosk-btn quiet" type="submit" name="decision" value="deny">{{ t('requests_decline') }}</button>
+    </div>
+  </form>
+  <form method="post"
+        action="{{ url_for('patient.resend_consent_otp', req_id=req.id) }}"
+        style="margin-top:10px">
+    <button class="kiosk-btn quiet" type="submit"
+            style="font-size:calc(15px * var(--scale));padding:10px 18px">
+      {{ t('requests_send_code') }}
+    </button>
+  </form>
+  {% if hint %}
+  <p style="font-size:14px;color:rgba(255,255,255,.45);margin-top:12px">
+    Mock service: the code is <b style="color:var(--haldi)">{{ hint }}</b>.
+  </p>
+  {% endif %}
+
+  {% elif req.is_live %}
+  <form method="post" action="{{ url_for('patient.decide_request', req_id=req.id) }}"
+        style="margin-top:16px">
+    <button class="kiosk-btn quiet" type="submit" name="decision" value="revoke">
+      {{ t('requests_revoke') }}
+    </button>
+  </form>
+  {% endif %}
+</div>
+{% endfor %}
+
+<div class="kiosk-actions">
+  <a class="kiosk-btn quiet" href="{{ url_for('patient.home') }}">{{ t('requests_back') }}</a>
+  <a class="kiosk-btn" href="{{ url_for('patient.leave') }}">{{ t('done_finish') }}</a>
+</div>
+{% endblock %}
+
+{% block scripts %}
+{{ super() }}
+<script src="{{ url_for('static', filename='js/field-voice.js') }}"></script>
+{% endblock %}

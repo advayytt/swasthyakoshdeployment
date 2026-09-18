@@ -1,0 +1,206 @@
+{% extends "clinician/_console.html" %}
+{% block title %}Question set{% endblock %}
+
+{% block console %}
+<div class="page-head">
+  <div>
+    <h1>The question set</h1>
+    <p>
+      Every question the terminal asks is a row here, not a line of code. Add one
+      and the next patient who reaches that point is asked it. No redeploy, no
+      restart.
+    </p>
+  </div>
+  <div class="counters">
+    <div class="counter"><b>{{ total }}</b><small>nodes</small></div>
+  </div>
+</div>
+
+<div class="case-grid">
+  <div>
+    <div class="card">
+      <div class="card-head"><h2>Add a question</h2></div>
+      <div class="card-body">
+        <form method="post">
+          <div class="field">
+            <label for="prompt_en">The question, in English</label>
+            <input type="text" id="prompt_en" name="prompt_en" required
+                   placeholder="Has there been any bleeding since delivery?">
+          </div>
+
+          <div class="two-col">
+            <div class="field">
+              <label for="prompt_hi">Hindi (optional)</label>
+              <input type="text" id="prompt_hi" name="prompt_hi">
+            </div>
+            <div class="field">
+              <label for="prompt_mr">Marathi (optional)</label>
+              <input type="text" id="prompt_mr" name="prompt_mr">
+            </div>
+          </div>
+
+          <div class="two-col">
+            <div class="field">
+              <label for="section">Section of the history</label>
+              <select id="section" name="section">
+                {% for key, label in labels.items() %}
+                <option value="{{ key }}" {% if key == 'hpi' %}selected{% endif %}>{{ label }}</option>
+                {% endfor %}
+              </select>
+            </div>
+            <div class="field">
+              <label for="input_type">How is it answered?</label>
+              <select id="input_type" name="input_type">
+                <option value="choice">One option</option>
+                <option value="multi">Several options</option>
+                <option value="scale">A 1 to 5 scale</option>
+                <option value="text">Free speech or typing</option>
+              </select>
+            </div>
+          </div>
+
+          <div class="two-col">
+            <div class="field">
+              <label for="complaint_tag">Ask only for this chief complaint</label>
+              <select id="complaint_tag" name="complaint_tag">
+                <option value="">Every patient</option>
+                <option value="joint_pain">Joint or back pain</option>
+                <option value="chest_pain">Chest pain</option>
+                <option value="abdominal">Stomach problem</option>
+                <option value="fever">Fever</option>
+                <option value="breathless">Breathing difficulty</option>
+                <option value="headache">Headache</option>
+                <option value="skin">Skin complaint</option>
+                <option value="other">Something else</option>
+              </select>
+            </div>
+            <div class="field">
+              <label for="socrates_slot">SOCRATES slot (optional)</label>
+              <select id="socrates_slot" name="socrates_slot">
+                <option value="">None</option>
+                <option value="site">Site</option>
+                <option value="onset">Onset</option>
+                <option value="character">Character</option>
+                <option value="radiation">Radiation</option>
+                <option value="associated">Associated features</option>
+                <option value="timing">Timing</option>
+                <option value="exacerbating">Exacerbating factors</option>
+                <option value="severity">Severity</option>
+              </select>
+            </div>
+          </div>
+
+          <div class="two-col">
+            <div class="field">
+              <label for="parent_node">Only ask after this question</label>
+              <input type="text" id="parent_node" name="parent_node"
+                     placeholder="e.g. past_surgery" list="node-ids">
+              <datalist id="node-ids">
+                {% for key, nodes in grouped.items() %}
+                  {% for node in nodes %}<option value="{{ node.node_id }}">{{ node.prompt_en[:60] }}</option>{% endfor %}
+                {% endfor %}
+              </datalist>
+            </div>
+            <div class="field">
+              <label for="show_if_value">…and only if the answer was</label>
+              <input type="text" id="show_if_value" name="show_if_value"
+                     placeholder="e.g. yes">
+            </div>
+          </div>
+
+          <div class="field">
+            <label>Answer options, one per box</label>
+            <div id="opts">
+              <input type="text" name="option_label" placeholder="No bleeding"
+                     style="margin-bottom:7px">
+              <input type="text" name="option_label" placeholder="Light spotting"
+                     style="margin-bottom:7px">
+              <input type="text" name="option_label" placeholder="Heavy bleeding, soaking pads"
+                     style="margin-bottom:7px">
+            </div>
+            <button class="btn btn-ghost btn-sm" type="button" id="add-opt">
+              Add another option
+            </button>
+          </div>
+
+          <div class="two-col">
+            <div class="field">
+              <label for="node_id">Internal id (leave blank to generate one)</label>
+              <input type="text" id="node_id" name="node_id"
+                     placeholder="pph_bleeding">
+            </div>
+            <div class="field">
+              <label for="order_index">Position in its section</label>
+              <input type="number" id="order_index" name="order_index" value="95">
+            </div>
+          </div>
+
+          <button class="btn btn-gold" type="submit">Put this question live</button>
+        </form>
+      </div>
+    </div>
+
+    <div class="card">
+      <div class="card-body">
+        <p style="font-size:13px;color:var(--ink-soft);margin:0">
+          <b>Try it during the demo.</b> Add “Has there been any bleeding since
+          delivery?” under the abdominal complaint, with the three options above.
+          Then open the patient terminal in another tab, start an intake, choose
+          a stomach problem, and the question appears in the flow. The
+          application was never restarted.
+        </p>
+      </div>
+    </div>
+  </div>
+
+  <div>
+    <div class="card">
+      <div class="card-head">
+        <h2>Questions currently in the set</h2>
+        <span class="tag">{{ total }}</span>
+      </div>
+      <div class="card-body">
+        {% for key, nodes in grouped.items() %}
+        <div class="sheet-section">
+          <h4>{{ labels.get(key, key) }} · {{ nodes|length }}</h4>
+          {% for node in nodes %}
+          <div class="node-row {% if not node.active %}off{% endif %}">
+            <div>
+              {{ node.prompt_en }}
+              <div class="nid">
+                {{ node.node_id }} ·
+                {{ node.input_type }}{% if node.options %} ({{ node.options|length }} options){% endif %}
+                {% if node.complaint_tag %} · only for {{ node.complaint_tag.replace('_',' ') }}{% endif %}
+                {% if node.parent_node %} · after {{ node.parent_node }}={{ node.show_if_value }}{% endif %}
+                {% if node.practitioner_only %} · practitioner only{% endif %}
+              </div>
+            </div>
+            <form method="post"
+                  action="{{ url_for('clinician.toggle_node', node_id=node.id) }}">
+              <button class="btn btn-ghost btn-sm" type="submit">
+                {{ 'Turn off' if node.active else 'Turn on' }}
+              </button>
+            </form>
+          </div>
+          {% endfor %}
+        </div>
+        {% endfor %}
+      </div>
+    </div>
+  </div>
+</div>
+{% endblock %}
+
+{% block scripts %}
+<script>
+document.getElementById("add-opt").addEventListener("click", function () {
+  var input = document.createElement("input");
+  input.type = "text";
+  input.name = "option_label";
+  input.placeholder = "Another option";
+  input.style.marginBottom = "7px";
+  document.getElementById("opts").appendChild(input);
+  input.focus();
+});
+</script>
+{% endblock %}

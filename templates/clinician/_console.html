@@ -1,0 +1,38 @@
+{% extends "base.html" %}
+
+{% block chrome %}
+<div class="console-top">
+  <div class="wrap">
+    <a class="brand" href="{{ url_for('main.landing') }}">Swasthya <span>Kosh</span></a>
+    <nav>
+      <a href="{{ url_for('clinician.queue') }}"
+         class="{% if request.endpoint == 'clinician.queue' %}on{% endif %}">Queue</a>
+      <a href="{{ url_for('clinician.patients') }}"
+         class="{% if request.endpoint == 'clinician.patients' %}on{% endif %}">Find patient</a>
+      <a href="{{ url_for('clinician.ontology') }}"
+         class="{% if request.endpoint == 'clinician.ontology' %}on{% endif %}">Question set</a>
+      <a href="{{ url_for('clinician.audit') }}"
+         class="{% if request.endpoint == 'clinician.audit' %}on{% endif %}">Audit trail</a>
+      {% if doctor %}
+      <span class="who-badge">{{ doctor.name }} · {{ doctor.hpr_id }}</span>
+      {% endif %}
+      <a href="{{ url_for('clinician.logout') }}">Sign out</a>
+    </nav>
+  </div>
+</div>
+{% endblock %}
+
+{% block content %}
+<main class="page" id="main">
+  <div class="wrap">
+    {% with messages = get_flashed_messages(with_categories=true) %}
+      {% if messages %}
+      <ul class="flashes">
+        {% for cat, msg in messages %}<li class="{{ cat }}">{{ msg }}</li>{% endfor %}
+      </ul>
+      {% endif %}
+    {% endwith %}
+    {% block console %}{% endblock %}
+  </div>
+</main>
+{% endblock %}

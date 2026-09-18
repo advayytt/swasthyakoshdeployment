@@ -1,0 +1,40 @@
+{% extends "clinician/_console.html" %}
+{% block title %}Audit trail{% endblock %}
+
+{% block console %}
+<div class="page-head">
+  <div>
+    <h1>Audit trail</h1>
+    <p>
+      Append-only. Every sign-in, record open, refused open, AI call, document
+      reading, consent decision and export, most recent first.
+    </p>
+  </div>
+  <div class="counters">
+    <div class="counter"><b>{{ entries|length }}</b><small>recent entries</small></div>
+  </div>
+</div>
+
+<div class="card">
+  <div class="card-body">
+    {% if not entries %}
+    <div class="empty"><b>Nothing logged yet</b>Use the app and come back.</div>
+    {% endif %}
+    {% for e in entries %}
+    <div class="audit-row">
+      <time>{{ e.at.strftime('%d %b %H:%M:%S') }}</time>
+      <span>
+        {{ e.actor_label or e.actor_type }}
+        <div style="font-size:11.5px;color:var(--ink-faint)">{{ e.actor_type }}</div>
+      </span>
+      <span>
+        <span class="act">{{ e.action.replace('_', ' ') }}</span>
+        {% if e.target %}<span class="det"> · {{ e.target }}</span>{% endif %}
+        {% if e.detail %}<div class="det">{{ e.detail }}</div>{% endif %}
+        {% if e.consent_id %}<div class="det">under consent artefact #{{ e.consent_id }}</div>{% endif %}
+      </span>
+    </div>
+    {% endfor %}
+  </div>
+</div>
+{% endblock %}

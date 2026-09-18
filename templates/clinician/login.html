@@ -1,0 +1,65 @@
+{% extends "base.html" %}
+{% block title %}Practitioner sign in{% endblock %}
+
+{% block content %}
+<div class="wrap-narrow auth-page">
+  <a class="brand auth-brand" href="{{ url_for('main.landing') }}">Swasthya <span>Kosh</span></a>
+
+  <h1>Practitioner console</h1>
+  <p>
+    Sign in with your Healthcare Professional Registry ID. Every record you open
+    is logged against it.
+  </p>
+
+  {% with messages = get_flashed_messages(with_categories=true) %}
+    {% if messages %}
+    <ul class="flashes">
+      {% for cat, msg in messages %}<li class="{{ cat }}">{{ msg }}</li>{% endfor %}
+    </ul>
+    {% endif %}
+  {% endwith %}
+
+  {% if demo %}
+  {# Seeded practitioner accounts, read straight from the database (see
+     routes/clinician.py's login() view) rather than hard-coded here, so
+     this box can never drift out of sync with what seed.py actually
+     created or go on showing credentials for an account that was later
+     removed. All demo passwords are "demo1234" (set in seed.py's
+     seed_doctors()) -- that part isn't a column on Doctor, so it is the
+     one fact stated below rather than pulled from the query. #}
+  <div class="card auth-demo-note">
+    <p class="auth-demo-title">Demo sign-in (seeded accounts)</p>
+    <ul class="auth-demo-list">
+      {% for doc in demo %}
+      <li><code>{{ doc.hpr_id }}</code> — {{ doc.name }}, {{ doc.system }}</li>
+      {% endfor %}
+    </ul>
+    <p class="auth-demo-password">Password for all of the above: <code>demo1234</code></p>
+  </div>
+  {% endif %}
+
+  <form method="post" class="card auth-card">
+    <div class="field">
+      <label for="hpr_id">HPR ID</label>
+      <input type="text" id="hpr_id" name="hpr_id" placeholder="HPR-AY-44821"
+             autocomplete="username" required autofocus>
+    </div>
+    <div class="field">
+      <label for="password">Password</label>
+      <input type="password" id="password" name="password"
+             autocomplete="current-password" required>
+    </div>
+    <button class="btn btn-gold" type="submit" style="width:100%;justify-content:center">
+      Sign in
+    </button>
+  </form>
+
+  <p class="auth-alt">
+    New practitioner?
+    <a href="{{ url_for('clinician.signup') }}">Create a practitioner account</a>
+  </p>
+  <p class="auth-alt">
+    <a href="{{ url_for('patient.start') }}">Open the patient terminal instead</a>
+  </p>
+</div>
+{% endblock %}

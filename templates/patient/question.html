@@ -1,0 +1,130 @@
+{% extends "patient/_kiosk.html" %}
+{% block title %}{{ prompt }}{% endblock %}
+{% block screenname %}Step 2 of 6 · {{ section_label }}{% endblock %}
+
+{% block kiosk %}
+<div id="kiosk-root"
+     data-locale="{{ speech_locale }}"
+     data-prompt="{{ prompt }}"
+     data-options-instruction="{{ t('kiosk_options_instruction') }}"
+     data-autospeak="1"
+     data-input-type="{{ node.input_type }}"
+     data-retry-no-speech="{{ t('voice_retry_no_speech') }}"
+     data-retry-not-matched="{{ t('voice_retry_not_matched') }}"
+     data-retry-error="{{ t('voice_retry_error') }}"
+     data-listening-label="{{ t('voice_listening') }}">
+
+  <p class="section-name">{{ section_label }}</p>
+  <h1>{{ prompt }}</h1>
+  {% if lang != 'en' %}<p class="sub">{{ node.prompt_en }}</p>{% endif %}
+
+  <form method="post" action="{{ url_for('patient.answer') }}" id="answer-form">
+    <input type="hidden" name="node_id" value="{{ node.node_id }}">
+    <input type="hidden" name="source" id="source-field" value="touch">
+    <input type="hidden" name="raw_transcript" id="raw-field" value="">
+    <input type="hidden" name="confidence" id="confidence-field" value="1.0">
+
+    {% if node.input_type == 'text' %}
+      <div class="kiosk-card">
+        <textarea id="text-input" name="value" rows="4"
+                  placeholder="{{ t('kiosk_text_placeholder') }}"></textarea>
+      </div>
+
+    {% elif node.input_type == 'scale' %}
+      <input type="hidden" name="value" id="value-field" value="">
+      <div class="scale-row">
+        {% for opt in options %}
+        <button class="opt" type="button"
+                data-value="{{ opt.value }}"
+                data-label="{{ opt.label }}"
+                data-label-en="{{ opt.label_en }}">
+          <span class="num">{{ opt.value }}</span>
+          <span>{{ opt.label }}</span>
+        </button>
+        {% endfor %}
+      </div>
+
+    {% elif node.input_type == 'multi' %}
+      <div id="multi-holder"></div>
+      <p class="sub" style="font-size:16px;margin-bottom:14px">
+        {{ t('kiosk_multi_hint') }}
+      </p>
+      <div class="opt-grid {% if options|length > 4 %}two{% endif %}">
+        {% for opt in options %}
+        <button class="opt" type="button"
+                data-value="{{ opt.value }}"
+                data-label="{{ opt.label }}"
+                data-label-en="{{ opt.label_en }}">
+          <span class="dot" aria-hidden="true"></span>
+          <span>{{ opt.label }}
+            {% if lang != 'en' and opt.label_en %}<span class="en">{{ opt.label_en }}</span>{% endif %}
+          </span>
+        </button>
+        {% endfor %}
+      </div>
+
+    {% else %}
+      <input type="hidden" name="value" id="value-field" value="">
+      <div class="opt-grid {% if options|length > 5 %}two{% endif %}">
+        {% for opt in options %}
+        <button class="opt" type="button"
+                data-value="{{ opt.value }}"
+                data-label="{{ opt.label }}"
+                data-label-en="{{ opt.label_en }}">
+          <span class="dot" aria-hidden="true"></span>
+          <span>{{ opt.label }}
+            {% if lang != 'en' and opt.label_en %}<span class="en">{{ opt.label_en }}</span>{% endif %}
+          </span>
+        </button>
+        {% endfor %}
+      </div>
+    {% endif %}
+
+    <div class="mic-row" id="mic-row">
+      <button class="mic" type="button" id="mic-btn" aria-label="{{ t('kiosk_mic_hint') }}">
+        <svg width="26" height="26" viewBox="0 0 24 24" fill="none"
+             stroke="currentColor" stroke-width="2" stroke-linecap="round">
+          <rect x="9" y="2" width="6" height="12" rx="3" fill="currentColor" stroke="none"/>
+          <path d="M5 11a7 7 0 0 0 14 0"/><path d="M12 18v4"/>
+        </svg>
+      </button>
+      <div>
+        <div class="mic-hint">{{ t('kiosk_mic_hint') }}</div>
+        <div class="transcript" id="transcript"></div>
+      </div>
+      <button class="kiosk-btn quiet btn-sm repeat-btn" type="button" id="speak-btn">
+        {{ t('kiosk_repeat_question') }}
+      </button>
+    </div>
+
+    <div class="kiosk-actions">
+      <button class="kiosk-btn quiet" type="submit" form="back-form"
+              {% if answered == 0 %}disabled{% endif %}>{{ t('kiosk_back') }}</button>
+      <button class="kiosk-btn" type="submit" id="next-btn" disabled>{{ t('kiosk_next') }}</button>
+    </div>
+  </form>
+
+  <form method="post" action="{{ url_for('patient.go_back') }}" id="back-form"></form>
+</div>
+{% endblock %}
+
+{% block rail %}
+<div class="rail">
+  <div class="rail-track">
+    <div class="rail-fill" data-percent="{{ percent }}"></div>
+  </div>
+  <div class="rail-label">
+    <span>{{ t('kiosk_question_progress', answered=(answered + 1), total=total) }}</span>
+    <span>{% if case.mode == 'ayush' %}{{ t('kiosk_mode_ayush') }}{% else %}{{ t('kiosk_mode_general') }}{% endif %}</span>
+  </div>
+</div>
+{% endblock %}
+
+{% block scripts %}
+{{ super() }}
+<script src="{{ url_for('static', filename='js/kiosk.js') }}"></script>
+<script>
+  const railFill = document.querySelector('.rail-fill');
+  if (railFill) railFill.style.width = `${railFill.dataset.percent}%`;
+</script>
+{% endblock %}

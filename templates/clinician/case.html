@@ -1,0 +1,433 @@
+{% extends "clinician/_console.html" %}
+{% block title %}{{ patient.name }} · case sheet{% endblock %}
+
+{% block console %}
+<div class="page-head">
+  <div>
+    <h1>{{ patient.name }}</h1>
+    <p>
+      {{ patient.age }} year old {{ patient.sex }} ·
+      {{ patient.abha_address }} ·
+      intake in {{ {'hi':'Hindi','mr':'Marathi','en':'English'}.get(case.language, case.language) }} ·
+      {{ case.duration_minutes or '—' }} minutes ·
+      {% if case.submitted_at %}submitted {{ case.submitted_at.strftime('%d %b, %H:%M') }}{% endif %}
+    </p>
+  </div>
+  <div style="display:flex;gap:8px;align-items:center">
+    <span class="triage-pill triage-{{ case.triage }}">{{ case.triage }}</span>
+    <a class="btn btn-ghost btn-sm" href="{{ url_for('clinician.pdf_export', case_id=case.id) }}">
+      Print case sheet
+    </a>
+    <a class="btn btn-ghost btn-sm" href="{{ url_for('clinician.fhir_export', case_id=case.id) }}">
+      FHIR R4 bundle
+    </a>
+  </div>
+</div>
+
+{% if case.red_flags %}
+<div class="banner {% if case.triage != 'emergency' %}gold{% endif %}">
+  <h3>
+    {% if case.triage == 'emergency' %}Emergency triage flags{% else %}Priority triage flags{% endif %}
+    — raised by rule, not by a model
+  </h3>
+  <ul>
+    {% for flag in case.red_flags %}
+    <li>
+      <b>{{ flag.label }}.</b> {{ flag.reason }}.
+      <span class="act">{{ flag.action }}</span>
+    </li>
+    {% endfor %}
+  </ul>
+</div>
+{% endif %}
+
+{% if interactions %}
+<div class="banner {% if interactions[0].severity != 'major' %}gold{% endif %}">
+  <h3>{{ interactions|length }} drug interaction{{ 's' if interactions|length != 1 else '' }}
+      across the medicines on file</h3>
+  <ul>
+    {% for hit in interactions %}
+    <li>
+      <b>{{ hit.drug_a }} + {{ hit.drug_b }}</b> ({{ hit.severity }}) —
+      {{ hit.mechanism }} <span class="act">{{ hit.advice }}</span>
+    </li>
+    {% endfor %}
+  </ul>
+</div>
+{% endif %}
+
+{% if low_confidence %}
+<div class="banner calm">
+  <h3>{{ low_confidence|length }} item{{ 's' if low_confidence|length != 1 else '' }}
+      the system is not sure about</h3>
+  <ul>
+    {% for item in low_confidence %}
+    <li><b>{{ item.what }}</b> — {{ item.why }}. Please re-check with the patient.</li>
+    {% endfor %}
+  </ul>
+</div>
+{% endif %}
+
+<form method="post" action="{{ url_for('clinician.verify_case', case_id=case.id) }}">
+<div class="case-grid">
+
+  <!-- ============================ LEFT ============================ -->
+  <div>
+    <div class="card">
+      <div class="card-head">
+        <h2>Pre-consultation case sheet</h2>
+        <span class="tag {% if case.status == 'confirmed' %}tag-green{% else %}tag-gold{% endif %}">
+          {{ case.status.replace('_',' ') }}
+        </span>
+      </div>
+      <div class="card-body">
+        <div class="provenance">
+          {% if case.summary_source in ['gemini','groq','openrouter','ai'] %}
+            Drafted by {{ ai_label }} from the patient's own answers.
+          {% elif case.summary_source == 'edited' %}
+            Edited by a practitioner after the first draft.
+          {% else %}
+            Assembled by the offline rules engine from the patient's answers.
+            No language model was involved.
+          {% endif %}
+          Contains no diagnosis, differential or treatment. Edit anything below
+          before confirming.
+        </div>
+
+        {% for section in sections %}
+        <div class="sheet-section">
+          <h4>{{ section.heading }}</h4>
+          {% if section.bullets %}
+          <ul class="sheet-bullets">
+            {% for bullet in section.bullets %}
+            <li>{{ bullet }}</li>
+            {% endfor %}
+          </ul>
+          {% else %}
+          <p>Not elicited.</p>
+          {% endif %}
+        </div>
+        {% endfor %}
+
+        <details style="margin-top:16px" open>
+          <summary style="cursor:pointer;font-size:13px;color:var(--ink-soft)">
+            Edit the case sheet text
+          </summary>
+          <textarea name="summary_text" rows="16"
+                    style="margin-top:10px;font-size:13.5px">{{ case.summary_text }}</textarea>
+          <div style="display:flex;align-items:center;gap:10px;margin-top:8px">
+            <button class="btn btn-sm" type="submit" name="action" value="save">
+              Save case sheet text
+            </button>
+            <span style="font-size:12px;color:var(--ink-faint)">
+              Saves this text as a draft without confirming the whole case
+              sheet — use "Confirm and save to record" below when you are
+              done with everything.
+            </span>
+          </div>
+        </details>
+      </div>
+    </div>
+
+    <div class="card">
+      <div class="card-head">
+        <h2>What the patient actually said</h2>
+        <span class="tag">{{ (case.answers or {})|length }} answers</span>
+      </div>
+      <div class="card-body">
+        {% for key, items in grouped.items() %}
+          {% if key != 'dashavidha' %}
+          <div class="sheet-section">
+            <h4>{{ section_labels.get(key, key) }}</h4>
+            {% for item in items %}
+            <div style="display:flex;justify-content:space-between;gap:14px;
+                        padding:5px 0;font-size:13.5px;border-bottom:1px dotted var(--line-soft)">
+              <span style="color:var(--ink-soft);flex:1">
+                {{ item.prompt }}
+                {% if item.socrates_slot %}<span class="tag">{{ item.socrates_slot }}</span>{% endif %}
+              </span>
+              <span style="text-align:right;flex:0 0 42%">
+                <b>{{ item.label }}</b>
+                {% if item.source == 'voice' %}
+                <div style="font-size:11.5px;color:{% if item.confidence < 0.75 %}var(--alert){% else %}var(--ink-faint){% endif %}">
+                  spoken, {{ (item.confidence * 100)|int }}% confidence
+                  {% if item.raw %}<br><i>heard: "{{ item.raw }}"</i>{% endif %}
+                </div>
+                {% endif %}
+              </span>
+            </div>
+            {% endfor %}
+          </div>
+          {% endif %}
+        {% endfor %}
+      </div>
+    </div>
+
+    <div class="card">
+      <div class="card-head">
+        <h2>Medical timeline from the patient's papers</h2>
+        <span class="tag">{{ timeline|length }} document{{ 's' if timeline|length != 1 else '' }}</span>
+      </div>
+      <div class="card-body">
+        {% if not timeline %}
+        <div class="empty"><b>No papers uploaded</b>
+          The patient did not bring prior documents, or chose to skip this step.</div>
+        {% endif %}
+
+        <div class="tl">
+        {% for item in timeline %}
+          <div class="tl-item {% if item.status == 'pending_review' %}pending{% endif %}">
+            <div class="tl-date">
+              {{ item.date_label }} ·
+              {{ item.doc_type.replace('_',' ') }}
+              {% if item.facility %}· {{ item.facility }}{% endif %}
+              · read at {{ (item.confidence * 100)|int }}% confidence
+              · <a href="{{ url_for('clinician.view_upload', upload_id=item.id) }}"
+                    target="_blank" rel="noopener">View original document</a>
+            </div>
+            <h5>
+              {% if item.status == 'pending_review' %}
+                <span class="tag tag-gold">needs your confirmation</span>
+              {% elif item.status == 'confirmed' %}
+                <span class="tag tag-green">confirmed</span>
+              {% else %}
+                <span class="tag">rejected</span>
+              {% endif %}
+            </h5>
+
+            {% if item.diagnoses %}
+            <div style="font-size:13.5px;margin-bottom:6px">
+              <b>Diagnoses read:</b>
+              {{ item.diagnoses|map(attribute='text')|join('; ') }}
+            </div>
+            {% endif %}
+
+            {% if item.medications %}
+            <div style="font-size:13.5px;margin-bottom:6px">
+              <b>Medicines read:</b>
+              {% for med in item.medications %}
+                {{ med.name }}{% if med.strength %} {{ med.strength }}{% endif %}{% if med.frequency %}, {{ med.frequency }}{% endif %}{% if not loop.last %}; {% endif %}
+              {% endfor %}
+            </div>
+            {% endif %}
+
+            {% if item.investigations %}
+            <div style="margin:8px 0">
+              {% for inv in item.investigations %}
+              <div class="lab {{ inv.status }}">
+                <span>{{ inv.name }}</span>
+                <span>
+                  <span class="val">{{ inv.value }} {{ inv.unit }}</span>
+                  <span class="ref">({{ inv.reference or 'no range' }})</span>
+                </span>
+              </div>
+              {% endfor %}
+            </div>
+            {% endif %}
+
+            {% if item.notes %}
+            <p style="font-size:12.5px;color:var(--ink-faint);margin:6px 0 0">
+              Reader note: {{ item.notes }}
+            </p>
+            {% endif %}
+
+            {% if item.status == 'pending_review' %}
+            <div style="display:flex;gap:8px;margin-top:10px">
+              <button class="btn btn-sm" type="submit" formmethod="post"
+                      formaction="{{ url_for('clinician.review_upload', upload_id=item.id) }}"
+                      name="action" value="confirm">Confirm this reading</button>
+              <button class="btn btn-ghost btn-sm" type="submit" formmethod="post"
+                      formaction="{{ url_for('clinician.review_upload', upload_id=item.id) }}"
+                      name="action" value="reject">Reject</button>
+            </div>
+            {% endif %}
+          </div>
+        {% endfor %}
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- ============================ RIGHT ============================ -->
+  <div>
+    <div class="card">
+      <div class="card-head"><h2>Diagnosis coding</h2></div>
+      <div class="card-body">
+        <p style="font-size:13px;color:var(--ink-soft);margin:0 0 12px">
+          Pick the NAMASTE term. The ICD-11 TM2 and Biomedicine codes are
+          attached automatically and all three travel together in the FHIR
+          Condition resource.
+        </p>
+
+        <div id="chosen-code" style="margin-bottom:12px">
+          {% if case.namaste_code %}
+          <div class="dual-chip"><small>NAMASTE</small><b>{{ case.namaste_code }}</b></div>
+          <div class="dual-chip"><small>ICD-11 TM2</small><b>{{ case.icd11_tm2_code or '—' }}</b></div>
+          <div class="dual-chip"><small>ICD-11 Biomedicine</small><b>{{ case.icd11_biomed_code or '—' }}</b></div>
+          {% endif %}
+        </div>
+
+        <input type="hidden" name="namaste_code" id="namaste_code"
+               value="{{ case.namaste_code or '' }}">
+
+        {% if suggestions %}
+        <p style="font-size:12px;color:var(--ink-faint);margin:0 0 6px">
+          Ranked from the chief complaint and the history. A suggestion, never a
+          diagnosis.
+        </p>
+        {% endif %}
+
+        <div class="field" style="margin-top:10px">
+          <label for="term-search">Search NAMASTE, Siddha, Unani or a biomedical name</label>
+          <input type="text" id="term-search" placeholder="sandhivata, amlapitta, asthma…"
+                 data-complaint="{{ case.chief_complaint or '' }}" autocomplete="off">
+        </div>
+        <div id="term-results"></div>
+      </div>
+    </div>
+
+    <div class="card">
+      <div class="card-head">
+        <h2>Dashavidha Pariksha</h2>
+        <span class="tag">{{ grouped.get('dashavidha', [])|length }} patient-reported</span>
+      </div>
+      <div class="card-body">
+        {% if grouped.get('dashavidha') %}
+        <dl class="kv">
+          {% for item in grouped['dashavidha'] %}
+          <dt>{{ item.dashavidha_param }}</dt>
+          <dd>{{ item.label }}</dd>
+          {% endfor %}
+        </dl>
+        {% else %}
+        <p style="font-size:13px;color:var(--ink-faint);margin:0">
+          This intake ran in general medicine mode, so the Dashavidha questions
+          were not asked.
+        </p>
+        {% endif %}
+
+        <div style="margin-top:16px;padding-top:14px;border-top:1px solid var(--line-soft)">
+          <p style="font-size:12.5px;color:var(--ink-faint);margin:0 0 12px">
+            These four cannot be self-reported. They are left blank for you to
+            complete on examination.
+          </p>
+          {% for node in practitioner_nodes %}
+          <div class="field">
+            <label for="dv_{{ node.node_id }}">
+              {{ node.dashavidha_param }} — {{ node.prompt_en }}
+            </label>
+            {% if node.input_type == 'text' %}
+              <input type="text" id="dv_{{ node.node_id }}" name="dv_{{ node.node_id }}"
+                     value="{{ (case.dashavidha or {}).get(node.dashavidha_param, '') }}">
+            {% elif node.input_type == 'multi' %}
+              <div style="display:flex;gap:12px;flex-wrap:wrap;font-size:13.5px">
+                {% for opt in node.options %}
+                <label style="display:flex;gap:5px;align-items:center;margin:0">
+                  <input type="checkbox" name="dv_{{ node.node_id }}" value="{{ opt.value }}"
+                         style="width:auto"
+                         {% if opt.value in (case.dashavidha or {}).get(node.dashavidha_param, []) %}checked{% endif %}>
+                  {{ opt.label_en }}
+                </label>
+                {% endfor %}
+              </div>
+            {% else %}
+              <select id="dv_{{ node.node_id }}" name="dv_{{ node.node_id }}">
+                <option value="">Not assessed</option>
+                {% for opt in node.options %}
+                <option value="{{ opt.value }}"
+                        {% if (case.dashavidha or {}).get(node.dashavidha_param) == opt.value %}selected{% endif %}>
+                  {{ opt.label_en }}
+                </option>
+                {% endfor %}
+              </select>
+            {% endif %}
+          </div>
+          {% endfor %}
+        </div>
+      </div>
+    </div>
+
+    <div class="card">
+      <div class="card-head">
+        <h2>Medicines on file</h2>
+        <span class="tag">{{ medicines|length }}</span>
+      </div>
+      <div class="card-body">
+        {% if not medicines %}
+        <p style="font-size:13px;color:var(--ink-faint);margin:0">
+          Nothing reported and nothing readable on the uploaded papers.
+        </p>
+        {% endif %}
+        {% for med in medicines %}
+        <div style="padding:5px 0;border-bottom:1px dotted var(--line-soft);font-size:13.5px">
+          {{ med }}
+        </div>
+        {% endfor %}
+
+        {% if interactions %}
+        <div style="margin-top:14px">
+          {% for hit in interactions %}
+          <div class="interaction {{ hit.severity }}">
+            <b>{{ hit.drug_a }} + {{ hit.drug_b }}</b>
+            <span class="tag {% if hit.severity=='major' %}tag-alert{% elif hit.severity=='moderate' %}tag-gold{% endif %}">
+              {{ hit.severity }}
+            </span>
+            <p>{{ hit.mechanism }}</p>
+            <p><b>{{ hit.advice }}</b></p>
+            <cite>{{ hit.reference }}</cite>
+          </div>
+          {% endfor %}
+        </div>
+        {% endif %}
+      </div>
+    </div>
+
+    <div class="card">
+      <div class="card-head"><h2>Consent and record</h2></div>
+      <div class="card-body">
+        <dl class="kv">
+          <dt>Purpose</dt><dd>{{ consent.purpose }}</dd>
+          <dt>Scope</dt><dd>{{ (consent.scope or [])|join(', ') }}</dd>
+          <dt>Granted</dt><dd>{{ consent.decided_at.strftime('%d %b, %H:%M') }}</dd>
+          <dt>Expires</dt><dd>{{ consent.expires_at.strftime('%d %b, %H:%M') }}</dd>
+          <dt>Patient consent</dt>
+          <dd>{{ 'recorded at intake' if case.consent_given else 'not recorded' }}</dd>
+          <dt>Verified by</dt>
+          <dd>{% if case.verified_at %}{{ doctor.name }}, {{ case.verified_at.strftime('%d %b %H:%M') }}{% else %}not yet{% endif %}</dd>
+        </dl>
+        <p style="font-size:12px;color:var(--ink-faint);margin:12px 0 0">
+          Every open, edit and export of this record is written to the audit
+          trail against your HPR ID and this consent artefact.
+        </p>
+      </div>
+    </div>
+
+    <div class="card">
+      <div class="card-body">
+        <div style="display:flex;gap:8px;flex-wrap:wrap">
+          <button class="btn btn-gold" type="submit" name="action" value="confirm">
+            Confirm and save to record
+          </button>
+          <button class="btn btn-ghost" type="submit" name="action" value="save">
+            Save as draft
+          </button>
+          <button class="btn btn-ghost" type="submit" name="action" value="reject"
+                  onclick="return confirm('Reject this case sheet? It will not enter the record.')">
+            Reject
+          </button>
+        </div>
+        <p style="font-size:12px;color:var(--ink-faint);margin:12px 0 0">
+          Confirming writes the history, the coding and your Dashavidha
+          assessment to the patient's record and marks the FHIR Composition as
+          final.
+        </p>
+      </div>
+    </div>
+  </div>
+</div>
+</form>
+{% endblock %}
+
+{% block scripts %}
+<script src="{{ url_for('static', filename='js/console.js') }}"></script>
+{% endblock %}

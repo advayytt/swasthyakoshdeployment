@@ -1,0 +1,27 @@
+{% extends "patient/_kiosk.html" %}
+{% block title %}{{ t('verify_title') }}{% endblock %}
+{% block screenname %}Step 1 of 6 · {{ t('verify_title') }}{% endblock %}
+
+{% block kiosk %}
+<h1>{{ t('verify_title') }}</h1>
+<p class="sub">
+  {{ th('verify_sub', last4=(patient.phone_last4 or '••••', 'b'),
+        name=(patient.name, none)) }}
+</p>
+
+<form method="post" class="kiosk-card">
+  <div class="field">
+    <label for="otp">{{ t('verify_label') }}</label>
+    <input type="text" id="otp" name="otp" inputmode="numeric" maxlength="6"
+           autocomplete="one-time-code" style="font-size:34px;letter-spacing:.3em"
+           required autofocus>
+  </div>
+  <button class="kiosk-btn" type="submit">{{ t('verify_submit') }}</button>
+</form>
+
+{% if hint %}
+<p class="sub" style="font-size:15px">
+  {{ th('verify_mock_note', code=(hint, 'b')) }}
+</p>
+{% endif %}
+{% endblock %}

@@ -1,0 +1,37 @@
+{% extends "patient/_kiosk.html" %}
+{% block title %}{{ t('urgent_show_staff') }}{% endblock %}
+{% block screenname %}Priority triage{% endblock %}
+
+{% block kiosk %}
+<div class="urgent-screen">
+  <div class="mark" aria-hidden="true">!</div>
+  <h1>{{ t('urgent_show_staff') }}</h1>
+  <p class="sub" style="font-size:20px">
+    आप जो बता रहे हैं उसे तुरंत देखा जाना चाहिए। कतार में इंतज़ार न करें।<br>
+    {{ t('urgent_sub') }}
+  </p>
+
+  <ul class="urgent-list">
+    {% for flag in flags %}
+    <li>
+      <b>{{ flag.label }}</b><br>
+      <span style="opacity:.85">{{ flag.reason }}. {{ flag.action }}</span>
+    </li>
+    {% endfor %}
+  </ul>
+
+  <p class="sub" style="font-size:16px">
+    {{ t('urgent_sent_note') }}
+  </p>
+
+  <div class="kiosk-actions" style="justify-content:center">
+    <form method="post" action="{{ url_for('patient.submit') }}">
+      <button class="kiosk-btn" type="submit">{{ t('urgent_send_button') }}</button>
+    </form>
+  </div>
+
+  <p class="sub" style="font-size:14px;margin-top:26px">
+    {{ t('urgent_disclaimer') }}
+  </p>
+</div>
+{% endblock %}

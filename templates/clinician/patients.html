@@ -1,0 +1,195 @@
+{% extends "clinician/_console.html" %}
+{% block title %}Find a patient{% endblock %}
+
+{% block console %}
+<div class="page-head">
+  <div>
+    <h1>Find or enrol a patient</h1>
+    <p>
+      Search by the ABHA address the patient gives you at the desk, or by name.
+      If they have no record yet, enrol them and request access.
+    </p>
+  </div>
+</div>
+
+<div class="case-grid">
+  <div>
+    <div class="card">
+      <div class="card-head"><h2>Search</h2></div>
+      <div class="card-body">
+        <form method="get" action="{{ url_for('clinician.patients') }}">
+          <div class="field">
+            <label for="q">ABHA address or name</label>
+            <input type="text" id="q" name="q" value="{{ query }}"
+                   placeholder="kamla.devi@abdm" autocomplete="off" autofocus>
+          </div>
+          <button class="btn" type="submit">Search</button>
+        </form>
+      </div>
+    </div>
+
+    {% if searched %}
+    <div class="card">
+      <div class="card-head">
+        <h2>Results</h2>
+        <span class="tag">{{ results|length }}</span>
+      </div>
+      <div class="card-body">
+        {% if not results %}
+        <div class="empty">
+          <b>No record for that ABHA address</b>
+          The patient has not used this system before. Enrol them using the form
+          on the right.
+        </div>
+        {% endif %}
+
+        {% for row in results %}
+        <div class="sheet-section">
+          <div style="display:flex;justify-content:space-between;gap:14px;
+                      align-items:flex-start;flex-wrap:wrap">
+            <div>
+              <div style="font-weight:700;color:var(--navy);
+                          font-size:calc(15px * var(--scale))">
+                {{ row.patient.name }}
+              </div>
+              <div style="font-size:calc(12.5px * var(--scale));color:var(--ink-faint)">
+                {{ row.patient.abha_address }} ·
+                {{ row.patient.age or '—' }}{{ row.patient.sex[0]|upper if row.patient.sex }} ·
+                language {{ row.patient.preferred_language }}
+                {% if row.patient.phone_last4 %} · phone ending {{ row.patient.phone_last4 }}{% endif %}
+              </div>
+            </div>
+            <div>
+              {% if row.consent %}
+                <span class="tag tag-green">access granted</span>
+              {% elif row.open_request %}
+                <span class="tag tag-gold">awaiting patient approval</span>
+              {% else %}
+                <span class="tag">no access</span>
+              {% endif %}
+            </div>
+          </div>
+
+          <div style="margin-top:10px;display:flex;gap:8px;flex-wrap:wrap;
+                      align-items:center">
+            {% if row.consent and row.case %}
+              <a class="btn btn-sm" href="{{ url_for('clinician.case_view', case_id=row.case.id) }}">
+                Open case sheet
+              </a>
+              <span style="font-size:calc(12.5px * var(--scale));color:var(--ink-faint)">
+                access until {{ row.consent.expires_at.strftime('%d %b, %H:%M') }}
+              </span>
+            {% elif row.consent and not row.case %}
+              <span style="font-size:calc(12.5px * var(--scale));color:var(--ink-soft)">
+                Access granted, but this patient has not completed an intake yet.
+                Send them to the terminal.
+              </span>
+            {% elif row.open_request %}
+              <form method="post"
+                    action="{{ url_for('clinician.verify_consent_otp', req_id=row.open_request.id) }}"
+                    style="display:flex;gap:8px;align-items:flex-end;flex-wrap:wrap">
+                <div>
+                  <label for="otp{{ row.patient.id }}">Code the patient read out</label>
+                  <input type="text" id="otp{{ row.patient.id }}" name="otp"
+                         inputmode="numeric" maxlength="6" autocomplete="off"
+                         placeholder="6-digit code" required
+                         style="font-size:16px;letter-spacing:.15em;width:8em">
+                </div>
+                <button class="btn btn-sm" type="submit">Unlock access</button>
+              </form>
+              <span style="font-size:calc(12.5px * var(--scale));color:var(--ink-faint)">
+                Requested {{ row.open_request.requested_at.strftime('%d %b, %H:%M') }}.
+                The patient can approve it themselves on the terminal under
+                <b>Manage access</b>, or read the code out to you if they have
+                already left the terminal.
+              </span>
+              <form method="post"
+                    action="{{ url_for('clinician.resend_consent_otp', req_id=row.open_request.id) }}">
+                <button class="btn btn-ghost btn-sm" type="submit">Send a new code</button>
+              </form>
+            {% else %}
+              <form method="post"
+                    action="{{ url_for('clinician.request_consent', patient_id=row.patient.id) }}"
+                    style="display:flex;gap:8px;align-items:flex-end;flex-wrap:wrap">
+                <div style="min-width:220px">
+                  <label for="purpose{{ row.patient.id }}">Purpose</label>
+                  <input type="text" id="purpose{{ row.patient.id }}" name="purpose"
+                         value="Today's OPD consultation">
+                </div>
+                <button class="btn btn-sm" type="submit">Request access</button>
+              </form>
+            {% endif %}
+          </div>
+        </div>
+        {% endfor %}
+      </div>
+    </div>
+    {% endif %}
+  </div>
+
+  <div>
+    <div class="card">
+      <div class="card-head"><h2>Enrol a new patient</h2></div>
+      <div class="card-body">
+        <p style="font-size:calc(13px * var(--scale));color:var(--ink-soft);margin:0 0 14px">
+          For a patient who has never used this system. Creating the record
+          here does not give you access to it — the patient still approves that
+          on the terminal.
+        </p>
+        <form method="post">
+          <input type="hidden" name="action" value="register">
+          <div class="field">
+            <label for="abha">ABHA address</label>
+            <input type="text" id="abha" name="abha"
+                   placeholder="firstname.lastname@abdm" required>
+          </div>
+          <div class="field">
+            <label for="name">Full name</label>
+            <input type="text" id="name" name="name" required>
+          </div>
+          <div class="two-col">
+            <div class="field">
+              <label for="age">Age</label>
+              <input type="number" id="age" name="age" min="0" max="130">
+            </div>
+            <div class="field">
+              <label for="sex">Sex</label>
+              <select id="sex" name="sex">
+                <option value="female">Female</option>
+                <option value="male">Male</option>
+                <option value="other">Other</option>
+              </select>
+            </div>
+          </div>
+          <div class="two-col">
+            <div class="field">
+              <label for="phone">Mobile (last four digits kept)</label>
+              <input type="tel" id="phone" name="phone" inputmode="numeric">
+            </div>
+            <div class="field">
+              <label for="language">Preferred language</label>
+              <select id="language" name="language">
+                <option value="hi">हिंदी</option>
+                <option value="mr">मराठी</option>
+                <option value="en">English</option>
+              </select>
+            </div>
+          </div>
+          <button class="btn btn-gold" type="submit">Enrol patient</button>
+        </form>
+      </div>
+    </div>
+
+    <div class="card">
+      <div class="card-body">
+        <p style="font-size:calc(12.5px * var(--scale));color:var(--ink-soft);margin:0">
+          <b>No Aadhaar number is asked for or stored</b>, here or anywhere else
+          in this system. Patients are identified by ABHA address, practitioners
+          by HPR ID, and only the last four digits of a phone number are kept so
+          the desk can confirm where a one-time code was sent.
+        </p>
+      </div>
+    </div>
+  </div>
+</div>
+{% endblock %}

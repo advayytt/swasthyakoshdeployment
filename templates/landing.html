@@ -1,0 +1,104 @@
+{% extends "base.html" %}
+{% block htmllang %}{{ lang }}{% endblock %}
+{% block title %}Swasthya Kosh — Start Your Visit{% endblock %}
+
+{% block a11y_extra %}
+<span class="sep" aria-hidden="true"></span>
+<span id="speak-root"
+      data-speech-locale="{{ speech_locale }}"
+      data-label-listen="{{ t('listen') }}"
+      data-label-pause="{{ t('listen_pause') }}"
+      data-label-resume="{{ t('listen_resume') }}"
+      data-label-stop="{{ t('listen_stop') }}"
+      data-label-unavailable="{{ t('listen_unavailable') }}"
+      class="lang-bar">
+  <button class="speak-btn" id="speak-page" type="button">
+    <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor"
+         stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+      <polygon points="11 5 6 9 2 9 2 15 6 15 11 19 11 5" fill="currentColor"/>
+      <path d="M15.5 8.5a5 5 0 0 1 0 7"/><path d="M18.5 5.5a9 9 0 0 1 0 13"/>
+    </svg>
+    {{ t('listen') }}
+  </button>
+  <button class="speak-btn" id="speak-stop" type="button" hidden>{{ t('listen_stop') }}</button>
+</span>
+<span class="sep" aria-hidden="true"></span>
+<nav class="lang-switch" aria-label="Language">
+  {% for l in languages %}
+  <a href="{{ url_for('main.set_language', code=l.code) }}"
+     class="{% if l.code == lang %}on{% endif %}" lang="{{ l.code }}"
+     {% if l.code == lang %}aria-current="true"{% endif %}>{{ l.label }}</a>
+  {% endfor %}
+</nav>
+{% endblock %}
+
+{% block chrome %}
+<header class="masthead">
+  <div class="wrap">
+    <div class="emblem" aria-hidden="true">
+      <img src="{{ url_for('static', filename='img/logo_emblem.png') }}"
+           alt="" width="30" height="30">
+    </div>
+    <div class="masthead-text">
+      <div class="ministry">Patient intake kiosk</div>
+      <div class="sitename">Swasthya Kosh &nbsp;·&nbsp; स्वास्थ्य कोश
+        <small>Answer health questions before meeting the doctor</small>
+      </div>
+    </div>
+    <div class="masthead-actions">
+      <a class="btn btn-gold" href="{{ url_for('patient.start') }}">{{ t('cta_patient') }}</a>
+      <a class="btn btn-ghost" href="{{ url_for('clinician.login') }}">{{ t('cta_console') }}</a>
+    </div>
+  </div>
+</header>
+{% endblock %}
+
+{% block content %}
+<main id="main">
+<div class="wrap kiosk-home">
+  <p class="speak-note" id="speak-note" hidden></p>
+
+  <section class="hero kiosk-hero">
+    <h1 data-speak>{{ t('hero_title') }}</h1>
+    <p class="lede" data-speak>{{ t('hero_lede') }}</p>
+    <div class="hero-actions">
+      <a class="btn btn-gold" href="{{ url_for('patient.start') }}">{{ t('cta_patient') }}</a>
+    </div>
+  </section>
+
+  <section class="journey kiosk-steps" id="journey" aria-labelledby="journey-title">
+    <div class="section-head">
+      <h2 id="journey-title" data-speak>{{ t('journey_title') }}</h2>
+      <p data-speak>{{ t('journey_sub') }}</p>
+    </div>
+    <div class="steps">
+      {% for n in ['1', '2', '3', '4', '5'] %}
+      <div class="step">
+        <div>
+          <h3 data-speak>{{ t('s' ~ n ~ '_title') }}</h3>
+          <p data-speak>{{ t('s' ~ n ~ '_body') }}</p>
+        </div>
+        <div class="who" data-speak>{{ t('s' ~ n ~ '_why') }}</div>
+      </div>
+      {% endfor %}
+    </div>
+  </section>
+
+  <div class="staff-links" aria-label="Staff links">
+    <a href="{{ url_for('clinician.login') }}">{{ t('cta_console') }}</a>
+    <a href="{{ url_for('main.status') }}">{{ t('nav_status') }}</a>
+  </div>
+</div>
+</main>
+
+<footer class="foot">
+  <div class="wrap">
+    <p data-speak>{{ t('foot_2') }}</p>
+  </div>
+</footer>
+{% endblock %}
+
+{% block scripts %}
+<script src="{{ url_for('static', filename='js/voice-shared.js') }}"></script>
+<script src="{{ url_for('static', filename='js/speak.js') }}"></script>
+{% endblock %}

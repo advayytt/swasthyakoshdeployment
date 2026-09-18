@@ -1,0 +1,61 @@
+{% extends "patient/_kiosk.html" %}
+{% block title %}{% if case.triage == 'emergency' %}{{ t('done_urgent_title') }}{% else %}{{ t('done_thanks', name='') }}{% endif %}{% endblock %}
+{% block screenname %}Step 6 of 6 · {% if case.triage == 'emergency' %}{{ t('done_urgent_title') }}{% else %}{{ t('done_token_label') }}{% endif %}{% endblock %}
+
+{% block kiosk %}
+<div style="text-align:center">
+  {% if case.triage == 'emergency' %}
+    <h1 style="color:var(--haldi)">{{ t('done_urgent_title') }}</h1>
+    <p class="sub" style="font-size:20px">{{ t('done_urgent_sub') }}</p>
+  {% else %}
+    <h1>{{ th('done_thanks', name=(patient.name.split()[0], none)) }}</h1>
+    <p class="sub" style="font-size:20px">{{ t('done_ready_sub') }}</p>
+  {% endif %}
+
+  <div class="token-big">{{ token }}</div>
+  <p class="sub" style="margin-top:0">{{ t('done_token_label') }}</p>
+
+  <div class="kiosk-card" style="text-align:left;margin-top:26px">
+    <div style="display:flex;justify-content:space-between;padding:9px 0;
+                border-bottom:1px solid rgba(255,255,255,.12)">
+      <span style="color:rgba(255,255,255,.6)">{{ t('done_questions_answered') }}</span>
+      <b>{{ (case.answers or {})|length }}</b>
+    </div>
+    <div style="display:flex;justify-content:space-between;padding:9px 0;
+                border-bottom:1px solid rgba(255,255,255,.12)">
+      <span style="color:rgba(255,255,255,.6)">{{ t('done_time_taken') }}</span>
+      <b>{{ case.duration_minutes or '—' }} {{ t('done_minutes') }}</b>
+    </div>
+    <div style="display:flex;justify-content:space-between;padding:9px 0;
+                border-bottom:1px solid rgba(255,255,255,.12)">
+      <span style="color:rgba(255,255,255,.6)">{{ t('done_queue_status') }}</span>
+      <b{% if case.triage == 'emergency' %} style="color:var(--alert)"{% elif case.triage == 'priority' %} style="color:var(--haldi)"{% else %} style="color:#fff"{% endif %}>
+        {{ case.triage|title }}
+      </b>
+    </div>
+    {% if chosen_doctor %}
+    <div style="display:flex;justify-content:space-between;padding:9px 0;
+                border-bottom:1px solid rgba(255,255,255,.12)">
+      <span style="color:rgba(255,255,255,.6)">{{ t('done_doctor') }}</span>
+      <b>{{ chosen_doctor.name }}<span style="display:block;font-weight:400;
+          font-size:13px;color:rgba(255,255,255,.55)">{{ chosen_doctor.department }}</span></b>
+    </div>
+    {% endif %}
+    <div style="display:flex;justify-content:space-between;padding:9px 0">
+      <span style="color:rgba(255,255,255,.6)">{{ t('done_coding') }}</span>
+      <b>{{ case.namaste_code or '—' }} {% if case.namaste_term %}· {{ case.namaste_term }}{% endif %}</b>
+    </div>
+  </div>
+
+  <p class="sub" style="font-size:15px;margin-top:22px">
+    {{ t('done_footer_note') }}
+  </p>
+
+  <div class="kiosk-actions" style="justify-content:center">
+    <a class="kiosk-btn quiet" href="{{ url_for('patient.requests_list') }}">
+      {{ t('done_manage_access') }}
+    </a>
+    <a class="kiosk-btn" href="{{ url_for('patient.leave') }}">{{ t('done_finish') }}</a>
+  </div>
+</div>
+{% endblock %}

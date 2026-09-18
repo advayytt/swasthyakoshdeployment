@@ -1,0 +1,42 @@
+<!doctype html>
+<html lang="{% block htmllang %}en{% endblock %}">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>{% block title %}Swasthya Kosh — Patient Case-Taking{% endblock %}</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Noto+Sans:wght@400;500;600;700&family=Noto+Sans+Devanagari:wght@400;500;600;700&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="{{ url_for('static', filename='css/app.css') }}">
+<link rel="icon" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 32 32'><rect width='32' height='32' fill='%23174C3A'/><path d='M8 23 L16 8 L24 23' stroke='%23FF9933' stroke-width='3' fill='none' stroke-linejoin='round'/><path d='M11.5 18 H20.5' stroke='%23FFFFFF' stroke-width='2.4'/></svg>">
+{% block head %}{% endblock %}
+</head>
+<body class="{% block bodyclass %}{% endblock %}">
+
+<a class="skip-link" href="#main">Skip to main content</a>
+
+{% block govbar %}
+<div class="gov-topbar">
+  <div class="wrap">
+    <a class="org" href="{{ url_for('main.landing') }}">Swasthya Kosh</a>
+    <div class="a11y-bar" id="a11y-bar">
+      <button type="button" id="text-smaller" title="Decrease text size"
+              aria-label="Decrease text size">A&minus;</button>
+      <button type="button" id="text-reset" title="Normal text size"
+              aria-label="Normal text size">A</button>
+      <button type="button" id="text-larger" title="Increase text size"
+              aria-label="Increase text size">A+</button>
+      <span class="sep" aria-hidden="true"></span>
+      {% block a11y_extra %}{% endblock %}
+    </div>
+  </div>
+</div>
+{% endblock %}
+
+{% block chrome %}{% endblock %}
+{% block content %}{% endblock %}
+
+<script src="{{ url_for('static', filename='js/a11y.js') }}"></script>
+{% block scripts %}{% endblock %}
+</body>
+</html>

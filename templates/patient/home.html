@@ -1,0 +1,77 @@
+{% extends "patient/_kiosk.html" %}
+{% block title %}{{ th('home_greeting', name=(patient.name.split()[0], none)) }}{% endblock %}
+{% block screenname %}{{ t('home_access_title') }}{% endblock %}
+
+{% block kiosk %}
+<h1>{{ th('home_greeting', name=(patient.name.split()[0], none)) }}</h1>
+<p class="sub">{{ patient.abha_address }}</p>
+
+{% if pending %}
+<div class="kiosk-card" style="border-color:var(--saffron);border-width:2px">
+  <p class="section-name" style="margin-bottom:10px">
+    {{ pending|length }} {{ t('home_pending_title') }}
+  </p>
+  {% for req in pending %}
+  <div style="padding:12px 0;border-bottom:1px solid rgba(255,255,255,.2)">
+    <b style="font-size:calc(20px * var(--scale))">{{ req.doctor.name }}</b>
+    <div style="font-size:calc(14px * var(--scale));color:rgba(255,255,255,.72)">
+      {{ req.doctor.department }} · {{ req.doctor.hpr_id }}
+    </div>
+    <div style="font-size:calc(15px * var(--scale));margin-top:6px">
+      {{ t('requests_reason') }} {{ req.purpose }}
+    </div>
+  </div>
+  {% endfor %}
+  <a class="kiosk-btn" href="{{ url_for('patient.requests_list') }}"
+     style="margin-top:14px">{{ t('home_pending_review') }}</a>
+</div>
+{% endif %}
+
+<div class="kiosk-card">
+  <p class="section-name" style="margin-bottom:8px">{{ t('home_start_title') }}</p>
+  <p style="margin:0 0 14px;font-size:calc(16px * var(--scale));color:rgba(255,255,255,.8)">
+    {{ t('home_start_body') }}
+  </p>
+  <a class="kiosk-btn" href="{{ url_for('patient.consent') }}">
+    {{ t('home_start_button') }}
+  </a>
+</div>
+
+<div class="kiosk-card">
+  <p class="section-name" style="margin-bottom:8px">{{ t('home_access_title') }}</p>
+  {% if live %}
+  <p style="margin:0 0 12px;font-size:calc(16px * var(--scale));color:rgba(255,255,255,.8)">
+    {{ live|length }} {{ t('home_access_has') }}
+    {{ live|map(attribute='doctor.name')|join(', ') }}.
+  </p>
+  {% else %}
+  <p style="margin:0 0 12px;font-size:calc(16px * var(--scale));color:rgba(255,255,255,.8)">
+    {{ t('home_access_none') }}
+  </p>
+  {% endif %}
+  <a class="kiosk-btn quiet" href="{{ url_for('patient.requests_list') }}">
+    {{ t('home_access_manage') }}
+  </a>
+</div>
+
+{% if recent %}
+<div class="kiosk-card">
+  <p class="section-name" style="margin-bottom:8px">{{ t('home_history_title') }}</p>
+  {% for case in recent %}
+  <div style="display:flex;justify-content:space-between;gap:12px;padding:8px 0;
+              border-bottom:1px solid rgba(255,255,255,.15);
+              font-size:calc(15px * var(--scale))">
+    <span>{{ (case.chief_complaint or 'not stated').replace('_',' ')|title }}</span>
+    <span style="color:rgba(255,255,255,.65)">
+      {{ case.submitted_at.strftime('%d %b') if case.submitted_at else 'in progress' }}
+      · {{ case.status.replace('_',' ') }}
+    </span>
+  </div>
+  {% endfor %}
+</div>
+{% endif %}
+
+<div class="kiosk-actions">
+  <a class="kiosk-btn quiet" href="{{ url_for('patient.leave') }}">{{ t('home_signout') }}</a>
+</div>
+{% endblock %}

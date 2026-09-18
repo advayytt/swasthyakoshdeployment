@@ -1,0 +1,71 @@
+{% extends "patient/_kiosk.html" %}
+{% block title %}{{ t('register_title') }}{% endblock %}
+{% block screenname %}Step 1 of 6 · {{ t('register_title') }}{% endblock %}
+
+{% macro field_mic(target) %}
+<button type="button" class="field-mic" data-target="{{ target }}"
+        data-locale="{{ speech_locale }}" aria-label="{{ t('field_mic_label') }}">
+  <svg viewBox="0 0 24 24" fill="none" stroke="currentColor"
+       stroke-width="2" stroke-linecap="round">
+    <rect x="9" y="2" width="6" height="12" rx="3" fill="currentColor" stroke="none"/>
+    <path d="M5 11a7 7 0 0 0 14 0"/><path d="M12 18v4"/>
+  </svg>
+</button>
+{% endmacro %}
+
+{% block kiosk %}
+<h1>{{ t('register_title') }}</h1>
+<p class="sub">{{ t('register_sub') }}</p>
+
+<form method="post" class="kiosk-card">
+  <div class="field">
+    <label for="name">{{ t('register_name') }}</label>
+    <div class="field-input-row">
+      <input type="text" id="name" name="name" required>
+      {{ field_mic('name') }}
+    </div>
+  </div>
+  <div class="field">
+    <label for="abha">{{ t('register_abha') }}</label>
+    <div class="field-input-row">
+      <input type="text" id="abha" name="abha" placeholder="firstname.lastname@abdm" required>
+      {{ field_mic('abha') }}
+    </div>
+  </div>
+  <div class="two-col">
+    <div class="field">
+      <label for="age">{{ t('register_age') }}</label>
+      <div class="field-input-row">
+        <input type="number" id="age" name="age" min="0" max="120">
+        {{ field_mic('age') }}
+      </div>
+    </div>
+    <div class="field">
+      <label for="sex">{{ t('register_sex') }}</label>
+      <div class="field-input-row">
+        <select id="sex" name="sex">
+          <option value="female">{{ t('register_sex_female') }}</option>
+          <option value="male">{{ t('register_sex_male') }}</option>
+          <option value="other">{{ t('register_sex_other') }}</option>
+        </select>
+        {{ field_mic('sex') }}
+      </div>
+    </div>
+  </div>
+  <div class="field">
+    <label for="phone">{{ t('register_phone') }}</label>
+    <div class="field-input-row">
+      <input type="tel" id="phone" name="phone" inputmode="numeric">
+      {{ field_mic('phone') }}
+    </div>
+  </div>
+  <button class="kiosk-btn" type="submit">{{ t('register_submit') }}</button>
+</form>
+
+<a class="kiosk-btn quiet" href="{{ url_for('patient.identify') }}">{{ t('kiosk_back') }}</a>
+{% endblock %}
+
+{% block scripts %}
+{{ super() }}
+<script src="{{ url_for('static', filename='js/field-voice.js') }}"></script>
+{% endblock %}

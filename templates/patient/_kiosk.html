@@ -1,0 +1,49 @@
+{% extends "base.html" %}
+{% block bodyclass %}kiosk{% endblock %}
+
+{# The terminal is a full-screen appliance. The government topbar is replaced
+   by a single line of context so nothing competes with the question. The
+   text size setting still applies, because it is stored per browser and
+   read from :root. #}
+{% block govbar %}{% endblock %}
+
+{% block content %}
+<div class="kiosk-shell">
+  <div class="kiosk-top">
+    <span>Swasthya Kosh - {% block screenname %}Patient terminal{% endblock %}</span>
+    <a href="{{ url_for('patient.leave') }}">{{ t('kiosk_exit') }}</a>
+  </div>
+
+  <main class="kiosk-body" id="main">
+    {% with messages = get_flashed_messages(with_categories=true) %}
+      {% if messages %}
+      <ul class="flashes">
+        {# Routes flash a translation key (e.g. "flash_no_record"), optionally
+           with |<key>=value pairs appended for interpolation, e.g.
+           "flash_access_granted|doctor=Dr Rao|until=17:40". t() resolves the
+           key in the patient's chosen language and fills the placeholders.
+           A route can still flash raw text with no matching key; t() falls
+           back to returning the string unchanged when it finds no key. #}
+        {% for cat, msg in messages %}
+        <li class="{{ cat }}">{{ resolve_flash(msg) }}</li>
+        {% endfor %}
+      </ul>
+      {% endif %}
+    {% endwith %}
+
+    {% block kiosk %}{% endblock %}
+  </main>
+
+  {% block rail %}{% endblock %}
+</div>
+{% endblock %}
+
+{% block scripts %}
+{# Every kiosk screen loads the shared speech core, unconditionally — not
+   just the screens that currently have a mic or a read-aloud button.
+   Screens are being converted one at a time to use it (see
+   templates/patient/question.html for the reference implementation); this
+   line means each conversion only has to add its own markup and small
+   per-field JS, never re-wire voice selection from scratch. #}
+<script src="{{ url_for('static', filename='js/voice-shared.js') }}"></script>
+{% endblock %}

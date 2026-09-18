@@ -1,0 +1,26 @@
+{% extends "patient/_kiosk.html" %}
+{% block title %}Choose a language{% endblock %}
+{% block screenname %}Step 1 of 6 · Language{% endblock %}
+
+{% block kiosk %}
+{# This screen shows both scripts deliberately, since the patient has not yet
+   chosen a language for t() to resolve against. Every other screen in the
+   kiosk translates through t() once a language is known. #}
+<h1>अपनी भाषा चुनिए<br>Choose your language</h1>
+<p class="sub">तस्वीर पर छूकर चुनें · Touch the language you want to use</p>
+
+<form method="post">
+  <div class="opt-grid">
+    {% for option in languages %}
+    <button class="opt" type="submit" name="language" value="{{ option.code }}">
+      <span class="dot" aria-hidden="true"></span>
+      <span>{{ option.label }}<span class="en">{{ option.english }}</span></span>
+    </button>
+    {% endfor %}
+  </div>
+</form>
+
+<p class="sub" style="margin-top:30px;font-size:15px">
+  {{ t('kiosk_staff_help') }}
+</p>
+{% endblock %}

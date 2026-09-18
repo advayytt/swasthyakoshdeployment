@@ -1,0 +1,53 @@
+{% extends "patient/_kiosk.html" %}
+{% block title %}{{ t('choosedoc_title') }}{% endblock %}
+{% block screenname %}Step 5 of 6 · {{ t('choosedoc_title') }}{% endblock %}
+
+{% block kiosk %}
+<h1>{{ t('choosedoc_title') }}</h1>
+<p class="sub">{{ t('choosedoc_sub') }}</p>
+
+{% if not rows %}
+<div class="kiosk-card">
+  <p style="margin:0 0 14px;font-size:16px;color:rgba(255,255,255,.75)">
+    {{ t('choosedoc_none_available') }}
+  </p>
+  <form method="post">
+    <input type="hidden" name="action" value="skip">
+    <button class="kiosk-btn" type="submit">{{ t('choosedoc_skip') }}</button>
+  </form>
+</div>
+{% else %}
+<form method="post">
+  <div class="opt-grid">
+    {% for row in rows %}
+    <label class="opt" for="doctor{{ row.doctor.id }}">
+      <input type="radio" name="doctor_id" id="doctor{{ row.doctor.id }}"
+             value="{{ row.doctor.id }}" required
+             style="width:20px;height:20px;flex:0 0 auto;accent-color:var(--saffron)">
+      <span>
+        {{ row.doctor.name }}
+        <span class="en">
+          {{ row.doctor.department }}
+          {% if row.doctor.system %}· {{ row.doctor.system }}{% endif %}
+          ·
+          {% if row.waiting == 0 %}{{ t('choosedoc_waiting_none') }}
+          {% elif row.waiting == 1 %}{{ t('choosedoc_waiting_one') }}
+          {% else %}{{ t('choosedoc_waiting_many', n=row.waiting) }}
+          {% endif %}
+        </span>
+      </span>
+    </label>
+    {% endfor %}
+  </div>
+
+  <div class="kiosk-actions" style="margin-top:20px">
+    <button class="kiosk-btn" type="submit">{{ t('choosedoc_choose') }}</button>
+  </div>
+</form>
+
+<form method="post" style="margin-top:10px">
+  <input type="hidden" name="action" value="skip">
+  <button class="kiosk-btn quiet" type="submit">{{ t('choosedoc_skip') }}</button>
+</form>
+{% endif %}
+{% endblock %}

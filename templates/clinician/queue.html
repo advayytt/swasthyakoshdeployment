@@ -1,0 +1,162 @@
+{% extends "clinician/_console.html" %}
+{% block title %}Queue · Swasthya Kosh{% endblock %}
+
+{% block console %}
+<div class="page-head">
+  <div>
+    <h1>Today's queue</h1>
+    <p>Sorted by triage, then by arrival. Emergencies sit above everything else.</p>
+  </div>
+  <div class="counters">
+    <div class="counter alert"><b>{{ counts.emergency }}</b><small>emergency</small></div>
+    <div class="counter gold"><b>{{ counts.priority }}</b><small>priority</small></div>
+    <div class="counter"><b>{{ counts.waiting }}</b><small>awaiting review</small></div>
+  </div>
+</div>
+
+<div class="tabs" role="tablist" style="margin-bottom:14px">
+  <a class="tab {% if tab == 'waiting' %}active{% endif %}"
+     href="{{ url_for('clinician.queue', tab='waiting') }}">
+    Waiting <span class="tab-count">{{ counts.waiting_total }}</span>
+  </a>
+  <a class="tab {% if tab == 'attended' %}active{% endif %}"
+     href="{{ url_for('clinician.queue', tab='attended') }}">
+    Attended today <span class="tab-count">{{ counts.attended_total }}</span>
+  </a>
+</div>
+
+{% if not rows %}
+<div class="card"><div class="empty">
+  {% if tab == 'attended' %}
+  <b>No one marked as attended yet</b>
+  Tick "Mark attended" on a patient in the Waiting tab once you have seen them.
+  {% else %}
+  <b>No intakes yet</b>
+  Open the patient terminal in another tab and complete an intake, or run
+  <code>python seed.py</code> to load the demo personas.
+  {% endif %}
+</div></div>
+{% endif %}
+
+{% if rows %}
+<table class="qtable">
+  <thead>
+    <tr>
+      <th>Triage</th><th>Patient</th><th>Reported</th><th>Flags</th>
+      <th>Coding</th><th>Papers</th><th>Access</th>
+      {% if tab == 'attended' %}<th>Attended</th>{% endif %}
+      <th></th><th></th>
+    </tr>
+  </thead>
+  <tbody>
+  {% for row in rows %}
+    <tr class="row-{{ row.case.triage }}">
+      <td>
+        <span class="triage-pill triage-{{ row.case.triage }}">{{ row.case.triage }}</span>
+      </td>
+      <td>
+        <div class="pname">{{ row.patient.name }}
+          {% if row.chosen_me %}
+          <span class="tag tag-green" style="font-size:10.5px;margin-left:4px">chose you</span>
+          {% elif not row.case.chosen_doctor_id and row.case.triage != 'emergency' %}
+          <span class="tag" style="font-size:10.5px;margin-left:4px">unassigned</span>
+          {% endif %}
+        </div>
+        <div class="pmeta">
+          {{ row.patient.age }}{{ row.patient.sex[0]|upper if row.patient.sex }} ·
+          {{ row.patient.abha_address }} · {{ row.case.language }}
+        </div>
+      </td>
+      <td>
+        {{ (row.case.chief_complaint or 'not stated').replace('_',' ')|title }}
+        <div class="pmeta">
+          {{ (row.case.answers or {})|length }} answers ·
+          {{ row.case.duration_minutes or '—' }} min
+        </div>
+      </td>
+      <td>
+        {% if row.case.red_flags %}
+          {% for flag in row.case.red_flags[:2] %}
+          <div style="font-size:12.5px;color:{% if flag.level=='emergency' %}var(--alert){% else %}var(--haldi-deep){% endif %}">
+            {{ flag.label }}
+          </div>
+          {% endfor %}
+          {% if row.case.red_flags|length > 2 %}
+          <div class="pmeta">+{{ row.case.red_flags|length - 2 }} more</div>
+          {% endif %}
+        {% else %}
+          <span class="pmeta">none</span>
+        {% endif %}
+      </td>
+      <td>
+        {% if row.case.namaste_code %}
+          <div style="font-size:12.5px">{{ row.case.namaste_code }}</div>
+          <div class="pmeta">{{ row.case.icd11_tm2_code or '—' }} / {{ row.case.icd11_biomed_code or '—' }}</div>
+        {% else %}<span class="pmeta">—</span>{% endif %}
+      </td>
+      <td>{{ row.docs }}</td>
+      <td>
+        {% if row.granted %}
+          <span class="tag tag-green">granted</span>
+          <div class="pmeta">to {{ row.granted.expires_at.strftime('%H:%M') }}</div>
+        {% elif row.pending %}
+          <form method="post"
+                action="{{ url_for('clinician.verify_consent_otp', req_id=row.pending.id) }}"
+                style="display:flex;gap:4px">
+            <input type="text" name="otp" inputmode="numeric" maxlength="6"
+                   autocomplete="off" placeholder="Code" required
+                   style="width:6.5em;font-size:13px;padding:4px 6px">
+            <button class="btn btn-ghost btn-sm" type="submit">Unlock</button>
+          </form>
+          <div class="pmeta">
+            requested {{ row.pending.requested_at.strftime('%H:%M') }} ·
+            <a href="{{ url_for('clinician.case_view', case_id=row.case.id) }}">details</a>
+          </div>
+        {% else %}
+          <form method="post"
+                action="{{ url_for('clinician.request_consent', patient_id=row.patient.id) }}">
+            <button class="btn btn-ghost btn-sm" type="submit">Request access</button>
+          </form>
+        {% endif %}
+      </td>
+      {% if tab == 'attended' %}
+      <td>
+        <div class="pmeta">{{ row.case.attended_at.strftime('%H:%M') }}</div>
+      </td>
+      {% endif %}
+      <td>
+        {% if row.granted %}
+        <form method="post"
+              action="{{ url_for('clinician.mark_attended', case_id=row.case.id) }}">
+          <input type="hidden" name="next"
+                 value="{{ url_for('clinician.queue', tab=tab) }}">
+          {% if tab == 'attended' %}
+          <button class="btn btn-ghost btn-sm" type="submit">
+            Move back to waiting
+          </button>
+          {% else %}
+          <button class="btn btn-ghost btn-sm" type="submit">
+            Mark attended
+          </button>
+          {% endif %}
+        </form>
+        {% endif %}
+      </td>
+      <td>
+        <a class="btn btn-sm {% if row.case.triage == 'emergency' %}btn-danger{% endif %}"
+           href="{{ url_for('clinician.case_view', case_id=row.case.id) }}">
+          Open
+        </a>
+      </td>
+    </tr>
+  {% endfor %}
+  </tbody>
+</table>
+{% endif %}
+
+<p style="font-size:12.5px;color:var(--ink-faint);margin-top:18px;max-width:70ch">
+  Triage is computed by deterministic rules on the patient's own answers, not by
+  a language model. A flag moves a patient up the queue; the absence of one leaves
+  normal triage untouched.
+</p>
+{% endblock %}

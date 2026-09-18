@@ -1,0 +1,65 @@
+{% extends "patient/_kiosk.html" %}
+{% block title %}{{ t('documents_title') }}{% endblock %}
+{% block screenname %}Step 4 of 6 · {{ t('documents_title') }}{% endblock %}
+
+{% block kiosk %}
+<h1>{{ t('documents_title') }}</h1>
+<p class="sub">{{ t('documents_sub') }}</p>
+
+<form method="post" enctype="multipart/form-data" class="kiosk-card">
+  <div class="field">
+    <label for="document">{{ t('documents_choose') }}</label>
+    <input type="file" id="document" name="document"
+           accept="image/*,application/pdf" capture="environment"
+           style="font-size:17px;padding:14px">
+  </div>
+  <div class="field">
+    <label for="doc_type">{{ t('documents_type') }}</label>
+    <select id="doc_type" name="doc_type">
+      <option value="prescription">{{ t('documents_type_prescription') }}</option>
+      <option value="lab_report">{{ t('documents_type_lab') }}</option>
+      <option value="discharge_summary">{{ t('documents_type_discharge') }}</option>
+    </select>
+  </div>
+  <button class="kiosk-btn" type="submit">{{ t('documents_add') }}</button>
+</form>
+
+{% if timeline %}
+<div class="kiosk-card">
+  <p style="margin:0 0 14px;font-size:16px;color:rgba(255,255,255,.6)">
+    {{ timeline|length }} {{ t('documents_added_count') }}
+  </p>
+  {% for item in timeline %}
+  <div style="border-bottom:1px solid rgba(255,255,255,.12);padding:12px 0">
+    <div style="display:flex;justify-content:space-between;gap:12px;align-items:baseline">
+      <b style="font-size:17px">{{ item.doc_type.replace('_',' ')|title }}</b>
+      <span style="font-size:14px;color:rgba(255,255,255,.5)">{{ item.date_label }}</span>
+    </div>
+    {% if item.medications %}
+    <div style="font-size:15px;color:rgba(255,255,255,.75);margin-top:6px">
+      {{ t('documents_meds_read') }} {{ item.medications|map(attribute='name')|join(', ') }}
+    </div>
+    {% endif %}
+    {% if item.investigations %}
+    <div style="font-size:15px;color:rgba(255,255,255,.75);margin-top:4px">
+      {{ t('documents_results_read') }} {{ item.investigations|length }}
+      {%- if item.abnormal %}, <span style="color:var(--haldi)">{{ item.abnormal|length }} {{ t('documents_abnormal') }}</span>{% endif %}
+    </div>
+    {% endif %}
+    <div style="font-size:14px;color:var(--haldi);margin-top:6px">
+      {{ t('documents_pending') }}
+    </div>
+  </div>
+  {% endfor %}
+</div>
+{% endif %}
+
+<form method="post" action="{{ url_for('patient.submit') }}">
+  <div class="kiosk-actions">
+    <a class="kiosk-btn quiet" href="{{ url_for('patient.intake') }}">{{ t('documents_back') }}</a>
+    <button class="kiosk-btn" type="submit">
+      {% if timeline %}{{ t('documents_done_with') }}{% else %}{{ t('documents_done_without') }}{% endif %}
+    </button>
+  </div>
+</form>
+{% endblock %}

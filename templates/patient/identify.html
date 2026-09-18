@@ -1,0 +1,40 @@
+{% extends "patient/_kiosk.html" %}
+{% block title %}{{ t('identify_title') }}{% endblock %}
+{% block screenname %}Step 1 of 6 · {{ t('identify_title') }}{% endblock %}
+
+{% block kiosk %}
+<h1>{{ t('identify_title') }}</h1>
+<p class="sub">{{ t('identify_sub') }}</p>
+
+<form method="post" class="kiosk-card">
+  <div class="field">
+    <label for="abha">{{ t('identify_label') }}</label>
+    <input type="text" id="abha" name="abha" placeholder="kamla.devi@abdm"
+           autocomplete="off" autocapitalize="off" required>
+  </div>
+  <button class="kiosk-btn" type="submit">{{ t('kiosk_continue') }}</button>
+</form>
+
+<div class="kiosk-card">
+  <p style="margin:0 0 14px;font-size:16px;color:rgba(255,255,255,.7)">
+    {{ t('identify_no_abha') }}
+  </p>
+  <a class="kiosk-btn quiet" href="{{ url_for('patient.register') }}">{{ t('identify_register_link') }}</a>
+</div>
+
+{% if demo %}
+<div class="kiosk-card">
+  <p style="margin:0 0 10px;font-size:14px;color:rgba(255,255,255,.5)">
+    {{ t('identify_demo_hint') }}
+  </p>
+  <div class="opt-grid two">
+    {% for p in demo %}
+    <button class="opt" type="button" style="font-size:16px;padding:14px 16px"
+            onclick="document.getElementById('abha').value='{{ p.abha_address }}'">
+      <span>{{ p.name }}<span class="en">{{ p.abha_address }} · {{ p.age }}y</span></span>
+    </button>
+    {% endfor %}
+  </div>
+</div>
+{% endif %}
+{% endblock %}

@@ -1,0 +1,226 @@
+[
+  {
+    "drug_a": "Ashwagandha",
+    "drug_b": "Levothyroxine",
+    "severity": "major",
+    "mechanism": "Ashwagandha can raise serum T4/T3, adding to exogenous thyroid hormone.",
+    "advice": "Check TSH before continuing both. Consider spacing or dose review by the prescribing physician.",
+    "reference": "Case reports of thyrotoxicosis with Withania somnifera; J Ayurveda Integr Med"
+  },
+  {
+    "drug_a": "Ashwagandha",
+    "drug_b": "Alprazolam",
+    "severity": "moderate",
+    "mechanism": "Additive CNS depression with sedative-anxiolytics.",
+    "advice": "Warn about daytime drowsiness; avoid driving until effect is known.",
+    "reference": "Pharmacodynamic class interaction"
+  },
+  {
+    "drug_a": "Guggulu",
+    "drug_b": "Propranolol",
+    "severity": "moderate",
+    "mechanism": "Guggulsterones induce CYP3A4 and P-glycoprotein, reducing propranolol bioavailability.",
+    "advice": "Monitor blood pressure and heart rate; beta-blocker effect may be reduced.",
+    "reference": "Br J Clin Pharmacol, guggulipid pharmacokinetic studies"
+  },
+  {
+    "drug_a": "Guggulu",
+    "drug_b": "Diltiazem",
+    "severity": "moderate",
+    "mechanism": "CYP3A4 induction reduces calcium-channel blocker exposure.",
+    "advice": "Watch for loss of BP control.",
+    "reference": "Br J Clin Pharmacol, guggulipid pharmacokinetic studies"
+  },
+  {
+    "drug_a": "Karela",
+    "drug_b": "Metformin",
+    "severity": "major",
+    "mechanism": "Momordica charantia has independent hypoglycaemic action, additive to metformin.",
+    "advice": "Higher hypoglycaemia risk. Advise glucose self-monitoring and counsel on hypo symptoms.",
+    "reference": "Systematic reviews of Momordica charantia in T2DM"
+  },
+  {
+    "drug_a": "Methi",
+    "drug_b": "Glimepiride",
+    "severity": "major",
+    "mechanism": "Fenugreek lowers postprandial glucose, additive to sulfonylurea.",
+    "advice": "Significant hypoglycaemia risk, especially if meals are skipped. Physician should review dosing.",
+    "reference": "Trigonella foenum-graecum glycaemic trials"
+  },
+  {
+    "drug_a": "Jamun",
+    "drug_b": "Insulin",
+    "severity": "moderate",
+    "mechanism": "Syzygium cumini seed powder has hypoglycaemic activity.",
+    "advice": "Monitor for hypoglycaemia; insulin dose may need adjustment.",
+    "reference": "Syzygium cumini antidiabetic literature"
+  },
+  {
+    "drug_a": "Arjuna",
+    "drug_b": "Digoxin",
+    "severity": "major",
+    "mechanism": "Terminalia arjuna has inotropic activity; potential additive cardiac effect and narrow digoxin index.",
+    "advice": "Do not combine without digoxin level monitoring.",
+    "reference": "Terminalia arjuna cardiotonic pharmacology"
+  },
+  {
+    "drug_a": "Punarnava",
+    "drug_b": "Furosemide",
+    "severity": "moderate",
+    "mechanism": "Additive diuresis with risk of hypokalaemia and volume depletion.",
+    "advice": "Check electrolytes; caution in elderly patients.",
+    "reference": "Boerhavia diffusa diuretic activity"
+  },
+  {
+    "drug_a": "Yashtimadhu",
+    "drug_b": "Amlodipine",
+    "severity": "major",
+    "mechanism": "Glycyrrhizin causes sodium retention and potassium loss, opposing antihypertensive effect.",
+    "advice": "Avoid prolonged high-dose liquorice in hypertensive patients; check BP and potassium.",
+    "reference": "Glycyrrhiza glabra pseudohyperaldosteronism reports"
+  },
+  {
+    "drug_a": "Yashtimadhu",
+    "drug_b": "Hydrochlorothiazide",
+    "severity": "major",
+    "mechanism": "Compounded potassium loss leading to hypokalaemia.",
+    "advice": "Check serum potassium before continuing.",
+    "reference": "Glycyrrhiza glabra pseudohyperaldosteronism reports"
+  },
+  {
+    "drug_a": "Brahmi",
+    "drug_b": "Phenytoin",
+    "severity": "moderate",
+    "mechanism": "Bacopa monnieri may alter phenytoin plasma concentration.",
+    "advice": "Monitor seizure control and phenytoin levels.",
+    "reference": "Bacopa-phenytoin pharmacokinetic animal studies"
+  },
+  {
+    "drug_a": "Shankhapushpi",
+    "drug_b": "Phenytoin",
+    "severity": "major",
+    "mechanism": "Documented reduction in phenytoin plasma levels with loss of seizure control.",
+    "advice": "Avoid co-administration. This is one of the best-documented Ayurveda-allopathy interactions.",
+    "reference": "Classic reported interaction, Indian J Pharmacol"
+  },
+  {
+    "drug_a": "Haridra",
+    "drug_b": "Warfarin",
+    "severity": "major",
+    "mechanism": "Curcumin has antiplatelet activity; additive bleeding risk.",
+    "advice": "Check INR. Stop turmeric supplements before any procedure.",
+    "reference": "Curcuma longa antiplatelet literature"
+  },
+  {
+    "drug_a": "Lashuna",
+    "drug_b": "Warfarin",
+    "severity": "major",
+    "mechanism": "Allium sativum inhibits platelet aggregation; raises bleeding risk.",
+    "advice": "Advise on bleeding signs and check INR.",
+    "reference": "Allium sativum haemostasis studies"
+  },
+  {
+    "drug_a": "Lashuna",
+    "drug_b": "Aspirin",
+    "severity": "moderate",
+    "mechanism": "Additive antiplatelet effect.",
+    "advice": "Counsel on bruising and gastrointestinal bleeding.",
+    "reference": "Allium sativum haemostasis studies"
+  },
+  {
+    "drug_a": "Guduchi",
+    "drug_b": "Tacrolimus",
+    "severity": "major",
+    "mechanism": "Tinospora cordifolia is immunostimulant, opposing immunosuppression.",
+    "advice": "Avoid in transplant recipients and autoimmune patients on immunosuppressants.",
+    "reference": "Tinospora cordifolia immunomodulation reviews"
+  },
+  {
+    "drug_a": "Guduchi",
+    "drug_b": "Prednisolone",
+    "severity": "moderate",
+    "mechanism": "Opposing immunological actions may reduce steroid efficacy.",
+    "advice": "Review indication with the treating physician.",
+    "reference": "Tinospora cordifolia immunomodulation reviews"
+  },
+  {
+    "drug_a": "Triphala",
+    "drug_b": "Digoxin",
+    "severity": "moderate",
+    "mechanism": "Laxative effect can cause potassium loss, increasing digoxin toxicity risk.",
+    "advice": "Avoid prolonged use; monitor potassium.",
+    "reference": "Laxative-induced hypokalaemia class effect"
+  },
+  {
+    "drug_a": "Triphala",
+    "drug_b": "Levothyroxine",
+    "severity": "minor",
+    "mechanism": "Altered gut transit may reduce levothyroxine absorption.",
+    "advice": "Separate administration by at least four hours.",
+    "reference": "Absorption timing class effect"
+  },
+  {
+    "drug_a": "Sarpagandha",
+    "drug_b": "Amlodipine",
+    "severity": "major",
+    "mechanism": "Rauwolfia serpentina lowers blood pressure; additive hypotension.",
+    "advice": "High risk of symptomatic hypotension in the elderly. Physician review required.",
+    "reference": "Rauwolfia serpentina antihypertensive pharmacology"
+  },
+  {
+    "drug_a": "Sarpagandha",
+    "drug_b": "Fluoxetine",
+    "severity": "major",
+    "mechanism": "Reserpine depletes monoamines and may precipitate depression.",
+    "advice": "Avoid in patients on antidepressants.",
+    "reference": "Reserpine monoamine depletion"
+  },
+  {
+    "drug_a": "Vasa",
+    "drug_b": "Salbutamol",
+    "severity": "minor",
+    "mechanism": "Both act as bronchodilators; generally complementary.",
+    "advice": "No routine action needed. Recheck if tremor or palpitation appears.",
+    "reference": "Adhatoda vasica bronchodilator activity"
+  },
+  {
+    "drug_a": "Bhallataka",
+    "drug_b": "Ibuprofen",
+    "severity": "moderate",
+    "mechanism": "Both are gastric irritants; additive mucosal injury.",
+    "advice": "Consider gastroprotection; review need for NSAID.",
+    "reference": "Semecarpus anacardium mucosal irritancy"
+  },
+  {
+    "drug_a": "Shilajit",
+    "drug_b": "Metformin",
+    "severity": "minor",
+    "mechanism": "Possible additive glucose-lowering effect.",
+    "advice": "Routine glucose monitoring is sufficient.",
+    "reference": "Shilajit metabolic studies"
+  },
+  {
+    "drug_a": "Amalaki",
+    "drug_b": "Clopidogrel",
+    "severity": "moderate",
+    "mechanism": "Emblica officinalis shows antiplatelet activity.",
+    "advice": "Counsel on bleeding risk before any invasive procedure.",
+    "reference": "Emblica officinalis platelet studies"
+  },
+  {
+    "drug_a": "Gokshura",
+    "drug_b": "Lithium",
+    "severity": "moderate",
+    "mechanism": "Diuretic action can reduce lithium clearance and raise levels.",
+    "advice": "Check lithium level if used together.",
+    "reference": "Diuretic-lithium class interaction"
+  },
+  {
+    "drug_a": "Nimba",
+    "drug_b": "Glimepiride",
+    "severity": "moderate",
+    "mechanism": "Azadirachta indica has hypoglycaemic activity, additive to sulfonylurea.",
+    "advice": "Monitor glucose, especially in fasting patients.",
+    "reference": "Azadirachta indica antidiabetic literature"
+  }
+]

@@ -1,0 +1,72 @@
+{% extends "base.html" %}
+{% block title %}System status{% endblock %}
+
+{% block chrome %}
+<div class="wrap">
+  <header class="top">
+    <a class="brand" href="/">Swasthya <span>Kosh</span></a>
+    <nav><a href="{{ url_for('main.landing') }}">Back to the start</a></nav>
+  </header>
+</div>
+{% endblock %}
+
+{% block content %}
+<div class="wrap-narrow" style="padding-top:44px;padding-bottom:70px">
+  <h1 style="font-family:var(--serif);font-size:33px;margin:0 0 6px;color:var(--vetiver-3)">
+    What this build is running on
+  </h1>
+  <p style="color:var(--ink-soft);margin:0 0 26px;max-width:64ch">
+    Three things are optional: Supabase, the language model, and the ABDM
+    sandbox. The application works without all three. This page shows which of
+    them are live right now.
+  </p>
+
+  <div class="card"><div class="card-body">
+    <dl class="kv" style="font-size:14.5px;gap:11px 20px">
+      <dt>Database</dt>
+      <dd>{{ info.database }}
+        {% if info.database_reachable %}<span class="tag tag-green">reachable</span>
+        {% else %}<span class="tag tag-alert">not reachable</span>{% endif %}
+      </dd>
+      <dt>Language model</dt>
+      <dd>{{ info.ai_provider }}
+        {% if info.ai_available %}<span class="tag tag-green">key present</span>
+        {% else %}<span class="tag tag-gold">no key, using rules engine</span>{% endif %}
+      </dd>
+      <dt>Speech</dt>
+      <dd>{{ info.speech_provider }}
+        {% if info.bhashini_enabled %}<span class="tag tag-green">Bhashini key present</span>
+        {% else %}<span class="tag tag-gold">browser speech (no key needed)</span>{% endif %}
+      </dd>
+      <dt>Identity service</dt><dd>{{ info.abdm }}</dd>
+      <dt>Questions loaded</dt><dd>{{ info.question_nodes }}</dd>
+      <dt>NAMASTE codes</dt><dd>{{ info.namaste_codes }}</dd>
+      <dt>Triage rules</dt><dd>{{ info.triage_rules }}</dd>
+    </dl>
+  </div></div>
+
+  {% if not info.ai_available %}
+  <div class="card" style="margin-top:16px"><div class="card-body">
+    <h3 style="margin:0 0 8px;font-size:15px">Running without a language model</h3>
+    <p style="font-size:14px;color:var(--ink-soft);margin:0">
+      The interview, triage, coding, drug screening, FHIR export and PDF all work
+      exactly as they do with a key. Two things change: case sheets are assembled
+      by a deterministic template rather than written as prose, and uploaded
+      documents arrive with empty fields for manual entry instead of being read
+      automatically. Add <code>GEMINI_API_KEY</code> to <code>.env</code> and
+      restart to turn both on.
+    </p>
+  </div></div>
+  {% endif %}
+
+  {% if info.question_nodes == 0 %}
+  <div class="card" style="margin-top:16px"><div class="card-body">
+    <h3 style="margin:0 0 8px;font-size:15px">No questions loaded</h3>
+    <p style="font-size:14px;color:var(--ink-soft);margin:0">
+      Run <code>python seed.py</code> once to load the question set, the
+      terminology, the interaction table and the demo personas.
+    </p>
+  </div></div>
+  {% endif %}
+</div>
+{% endblock %}

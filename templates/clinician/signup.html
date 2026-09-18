@@ -1,0 +1,67 @@
+{% extends "base.html" %}
+{% block title %}Create practitioner account{% endblock %}
+
+{% block content %}
+<div class="wrap-narrow auth-page">
+  <a class="brand auth-brand" href="{{ url_for('main.landing') }}">Swasthya <span>Kosh</span></a>
+
+  <h1>Create practitioner account</h1>
+  <p>
+    Use your Healthcare Professional Registry ID. The account becomes active
+    immediately in this build, and every record access is logged against this ID.
+  </p>
+
+  {% with messages = get_flashed_messages(with_categories=true) %}
+    {% if messages %}
+    <ul class="flashes">
+      {% for cat, msg in messages %}<li class="{{ cat }}">{{ msg }}</li>{% endfor %}
+    </ul>
+    {% endif %}
+  {% endwith %}
+
+  <form method="post" class="card auth-card">
+    <div class="field">
+      <label for="name">Full name</label>
+      <input type="text" id="name" name="name" placeholder="Dr Asha Rao"
+             autocomplete="name" required autofocus>
+    </div>
+    <div class="field">
+      <label for="hpr_id">HPR ID</label>
+      <input type="text" id="hpr_id" name="hpr_id" placeholder="HPR-AY-12345"
+             autocomplete="username" required>
+    </div>
+    <div class="two-col">
+      <div class="field">
+        <label for="system">System</label>
+        <select id="system" name="system" required>
+          <option>Ayurveda</option>
+          <option>Siddha</option>
+          <option>Unani</option>
+          <option>Allopathy</option>
+        </select>
+      </div>
+      <div class="field">
+        <label for="department">Department</label>
+        <input type="text" id="department" name="department"
+               placeholder="Kayachikitsa" required>
+      </div>
+    </div>
+    <div class="field">
+      <label for="password">Password</label>
+      <input type="password" id="password" name="password"
+             autocomplete="new-password" minlength="8" required>
+    </div>
+    <div class="field">
+      <label for="confirm_password">Confirm password</label>
+      <input type="password" id="confirm_password" name="confirm_password"
+             autocomplete="new-password" minlength="8" required>
+    </div>
+    <button class="btn btn-gold" type="submit">Create account</button>
+  </form>
+
+  <p class="auth-alt">
+    Already have an account?
+    <a href="{{ url_for('clinician.login') }}">Sign in to the practitioner console</a>
+  </p>
+</div>
+{% endblock %}

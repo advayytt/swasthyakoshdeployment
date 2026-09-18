@@ -1,0 +1,19 @@
+# Minimum versions, not exact pins.
+#
+# Exact pins broke on Python 3.13: psycopg-binary 3.2.1 has no 3.13 wheel and
+# pip aborts the ENTIRE install when one package cannot resolve, leaving
+# nothing installed. Minimums let pip pick a build that works on your Python.
+
+Flask>=3.0.3
+Flask-SQLAlchemy>=3.1.1
+SQLAlchemy>=2.0.36
+python-dotenv>=1.0.1
+requests>=2.32.3
+Werkzeug>=3.0.3
+reportlab>=4.2.2
+
+# Postgres driver — needed only when DATABASE_URL is set (Supabase).
+# On Vercel: if this line causes the deploy to fail with a build error,
+# remove it here and set it as a Vercel build dependency separately, or
+# switch to psycopg2-binary which has pre-built wheels for all platforms.
+psycopg2-binary>=2.9.9
