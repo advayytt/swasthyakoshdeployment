@@ -553,6 +553,36 @@ body.kiosk { background: var(--kiosk-bg); color: #fff;
 .sheet-bullets li { margin: 0 0 4px; line-height: 1.55; }
 .sheet-bullets li:last-child { margin-bottom: 0; }
 
+/* Ayurveda -> allopathy translation rows (templates/clinician/case.html).
+   Deliberately NOT the compact .kv key-value grid used elsewhere on this
+   page — .kv assumes a short one-line value, and these notes run to a
+   full sentence or two, which squeezed into .kv's narrow value column
+   and wrapped illegibly. Each finding gets its own full-width block
+   instead: a term line, then the note as ordinary paragraph text below
+   it, so the note gets the whole card's width to breathe. */
+.ayush-translation-list { display: flex; flex-direction: column; }
+.ayush-translation-row {
+  padding: 12px 0; border-bottom: 1px solid var(--line-soft);
+}
+.ayush-translation-row:first-child { padding-top: 0; }
+.ayush-translation-row:last-child { padding-bottom: 0; border-bottom: 0; }
+.ayush-translation-term {
+  display: flex; flex-wrap: wrap; align-items: baseline; gap: 6px;
+  margin-bottom: 5px;
+}
+.ayush-translation-param {
+  font-size: calc(12px * var(--scale)); font-weight: 700; color: var(--navy);
+  text-transform: uppercase; letter-spacing: .03em;
+}
+.ayush-translation-answer {
+  font-size: calc(13px * var(--scale)); font-weight: 600; color: var(--ink);
+  background: var(--panel); padding: 1px 8px; border-radius: 999px;
+}
+.ayush-translation-note {
+  margin: 0; font-size: calc(14px * var(--scale)); line-height: 1.6;
+  color: var(--ink-soft); max-width: 62ch;
+}
+
 .provenance { font-size: calc(12.5px * var(--scale)); color: var(--ink-soft);
               padding: 9px 12px; background: var(--panel); border: 1px solid var(--line);
               margin-bottom: 14px; }

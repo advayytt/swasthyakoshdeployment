@@ -286,6 +286,38 @@
       </div>
     </div>
 
+    {% if ayush_translation %}
+    <div class="card" style="border-color:var(--navy);border-width:2px">
+      <div class="card-head">
+        <h2>Ayurvedic history — translated for allopathic reference</h2>
+        <span class="tag tag-gold">{{ doctor.system }} reader</span>
+      </div>
+      <div class="card-body">
+        <p style="font-size:12.5px;color:var(--ink-faint);margin:0 0 14px">
+          This intake ran in Ayurveda mode, which asks the Dashavidha
+          Pariksha questions below. {{ doctor.name }} practices
+          {{ doctor.system }}, so each traditional finding is translated
+          here into a plain clinical note. Where a finding has no real
+          modern equivalent, that is stated honestly rather than invented —
+          treat these as context, not a diagnosis. The original Ayurvedic
+          terms and the patient's exact answers are still shown in the
+          Dashavidha Pariksha card below, unchanged.
+        </p>
+        <div class="ayush-translation-list">
+          {% for t in ayush_translation %}
+          <div class="ayush-translation-row">
+            <div class="ayush-translation-term">
+              <span class="ayush-translation-param">{{ t.param }}</span>
+              <span class="ayush-translation-answer">{{ t.patient_answer }}</span>
+            </div>
+            <p class="ayush-translation-note">{{ t.note }}</p>
+          </div>
+          {% endfor %}
+        </div>
+      </div>
+    </div>
+    {% endif %}
+
     <div class="card">
       <div class="card-head">
         <h2>Dashavidha Pariksha</h2>

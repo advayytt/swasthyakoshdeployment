@@ -16,7 +16,7 @@ from flask import (Blueprint, Response, abort, current_app, flash, jsonify,
 
 from models import (AccessLog, CaseEntry, ConsentRequest, Doctor, NamasteCode,
                     Patient, PrescriptionUpload, QuestionNode, db, log, utcnow)
-from services import abdm, extraction, fhir, redflags, summary
+from services import abdm, ayush_translate, extraction, fhir, redflags, summary
 from services.clinical import (check_interactions, search_terminology,
                                suggest_codes)
 from services.intake import SECTION_LABELS, practitioner_nodes, structured_history
@@ -273,12 +273,23 @@ def case_view(case_id):
     spoken_meds = (case.answers or {}).get("drug_current", {}).get("value", "")
     medicines = extraction.all_medications(uploads, spoken_meds)
     interactions = check_interactions(medicines)
+    grouped = structured_history(case)
+
+    # Ayurveda-taken intake (case.mode == "ayush") seen by a non-AYUSH
+    # doctor: translate the Dashavidha Pariksha findings into plain
+    # clinical notes so "Agni: Vishama" does not land in front of an
+    # allopathic reader as unexplained jargon. See services/ayush_translate
+    # for what this does and does not claim to translate.
+    ayush_translation = None
+    if ayush_translate.applies_to(case, doctor):
+        ayush_translation = ayush_translate.translate(
+            grouped.get("dashavidha", []), case.dashavidha)
 
     return render_template(
         "clinician/case.html",
         case=case, patient=patient, doctor=doctor, consent=consent,
         sections=summary.as_sections(case.summary_text),
-        grouped=structured_history(case),
+        grouped=grouped,
         section_labels=SECTION_LABELS,
         timeline=extraction.timeline(uploads),
         medicines=medicines,
@@ -286,6 +297,7 @@ def case_view(case_id):
         suggestions=suggest_codes(case),
         practitioner_nodes=practitioner_nodes(),
         low_confidence=_low_confidence(case, uploads),
+        ayush_translation=ayush_translation,
     )
 
 
