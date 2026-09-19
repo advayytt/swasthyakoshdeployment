@@ -16,7 +16,8 @@ from flask import (Blueprint, Response, abort, current_app, flash, jsonify,
 
 from models import (AccessLog, CaseEntry, ConsentRequest, Doctor, NamasteCode,
                     Patient, PrescriptionUpload, QuestionNode, db, log, utcnow)
-from services import abdm, ayush_translate, extraction, fhir, redflags, summary
+from services import (abdm, allopathy_translate, ayush_translate,
+                      extraction, fhir, redflags, summary)
 from services.clinical import (check_interactions, search_terminology,
                                suggest_codes)
 from services.intake import SECTION_LABELS, practitioner_nodes, structured_history
@@ -285,6 +286,14 @@ def case_view(case_id):
         ayush_translation = ayush_translate.translate(
             grouped.get("dashavidha", []), case.dashavidha)
 
+    # The mirror direction: a general-medicine (SOCRATES) intake read by
+    # an Ayurveda/Siddha/Unani doctor. See services/allopathy_translate
+    # for what this covers and how it is calibrated.
+    allopathy_translation = None
+    if allopathy_translate.applies_to(case, doctor):
+        allopathy_translation = allopathy_translate.translate(
+            grouped.get("hpi", []))
+
     return render_template(
         "clinician/case.html",
         case=case, patient=patient, doctor=doctor, consent=consent,
@@ -298,6 +307,8 @@ def case_view(case_id):
         practitioner_nodes=practitioner_nodes(),
         low_confidence=_low_confidence(case, uploads),
         ayush_translation=ayush_translation,
+        allopathy_translation=allopathy_translation,
+        missing_dashavidha_note=allopathy_translate.MISSING_DASHAVIDHA_NOTE,
     )
 
 

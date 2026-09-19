@@ -129,6 +129,43 @@
       </div>
     </div>
 
+    {% if allopathy_translation %}
+    <div class="card" style="border-color:var(--navy);border-width:2px">
+      <div class="card-head">
+        <h2>SOCRATES history — translated for Ayurvedic reference</h2>
+        <span class="tag tag-gold">{{ doctor.system }} reader</span>
+      </div>
+      <div class="card-body">
+        <p style="font-size:12.5px;color:var(--ink-faint);margin:0 0 14px">
+          This intake ran in general medicine mode, using the SOCRATES-
+          structured history above. {{ doctor.name }} practices
+          {{ doctor.system }}, so each finding is translated here with
+          dosha- and Agni-relevant framing. Where a finding is a red flag
+          regardless of system (chest pain radiating with cardiac features,
+          a thunderclap headache, blood in stool), that is stated plainly
+          and not buried under the traditional framing. Treat these notes
+          as context to weigh, not a diagnosis.
+        </p>
+        <p style="font-size:12.5px;color:var(--warn);margin:0 0 14px;
+                  padding:10px 12px;background:var(--warn-soft);
+                  border:1px solid #E0C48A">
+          {{ missing_dashavidha_note }}
+        </p>
+        <div class="ayush-translation-list">
+          {% for t in allopathy_translation %}
+          <div class="ayush-translation-row">
+            <div class="ayush-translation-term">
+              <span class="ayush-translation-param">{{ t.socrates_slot }}</span>
+              <span class="ayush-translation-answer">{{ t.patient_answer }}</span>
+            </div>
+            <p class="ayush-translation-note">{{ t.note }}</p>
+          </div>
+          {% endfor %}
+        </div>
+      </div>
+    </div>
+    {% endif %}
+
     <div class="card">
       <div class="card-head">
         <h2>What the patient actually said</h2>
