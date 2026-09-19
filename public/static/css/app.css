@@ -358,6 +358,13 @@ body.kiosk { background: var(--kiosk-bg); color: #fff;
 .kiosk .section-name { font-size: calc(13px * var(--scale)); color: var(--saffron);
                        margin: 0 0 12px; font-weight: 700;
                        text-transform: uppercase; letter-spacing: .06em; }
+.kiosk .mode-badge {
+  display: inline-block; margin-left: 8px; padding: 2px 9px;
+  font-size: calc(10.5px * var(--scale)); font-weight: 600;
+  text-transform: none; letter-spacing: normal; color: rgba(255,255,255,.85);
+  background: rgba(255,255,255,.14); border: 1px solid rgba(255,255,255,.28);
+  border-radius: 999px; vertical-align: middle;
+}
 
 .opt-grid { display: grid; gap: 10px; }
 .opt-grid.two { grid-template-columns: 1fr 1fr; }

@@ -8,14 +8,62 @@
     "prompt_mr": "आज तुम्ही रुग्णालयात का आला आहात?",
     "input_type": "choice",
     "options": [
-      {"value": "joint_pain", "label_en": "Joint or back pain", "label_hi": "जोड़ों या कमर का दर्द", "label_mr": "सांधे किंवा पाठदुखी", "icon": "joint"},
-      {"value": "chest_pain", "label_en": "Chest pain or tightness", "label_hi": "छाती में दर्द या भारीपन", "label_mr": "छातीत दुखणे", "icon": "chest"},
-      {"value": "abdominal", "label_en": "Stomach problem", "label_hi": "पेट की समस्या", "label_mr": "पोटाची तक्रार", "icon": "abdomen"},
-      {"value": "fever", "label_en": "Fever", "label_hi": "बुखार", "label_mr": "ताप", "icon": "fever"},
-      {"value": "breathless", "label_en": "Breathing difficulty", "label_hi": "साँस लेने में तकलीफ", "label_mr": "श्वास घेण्यास त्रास", "icon": "lung"},
-      {"value": "headache", "label_en": "Headache or giddiness", "label_hi": "सिरदर्द या चक्कर", "label_mr": "डोकेदुखी किंवा चक्कर", "icon": "head"},
-      {"value": "skin", "label_en": "Skin complaint", "label_hi": "त्वचा की समस्या", "label_mr": "त्वचेची तक्रार", "icon": "skin"},
-      {"value": "other", "label_en": "Something else", "label_hi": "कुछ और", "label_mr": "इतर काही", "icon": "other"}
+      {
+        "value": "joint_pain",
+        "label_en": "Joint or back pain",
+        "label_hi": "जोड़ों या कमर का दर्द",
+        "label_mr": "सांधे किंवा पाठदुखी",
+        "icon": "joint"
+      },
+      {
+        "value": "chest_pain",
+        "label_en": "Chest pain or tightness",
+        "label_hi": "छाती में दर्द या भारीपन",
+        "label_mr": "छातीत दुखणे",
+        "icon": "chest"
+      },
+      {
+        "value": "abdominal",
+        "label_en": "Stomach problem",
+        "label_hi": "पेट की समस्या",
+        "label_mr": "पोटाची तक्रार",
+        "icon": "abdomen"
+      },
+      {
+        "value": "fever",
+        "label_en": "Fever",
+        "label_hi": "बुखार",
+        "label_mr": "ताप",
+        "icon": "fever"
+      },
+      {
+        "value": "breathless",
+        "label_en": "Breathing difficulty",
+        "label_hi": "साँस लेने में तकलीफ",
+        "label_mr": "श्वास घेण्यास त्रास",
+        "icon": "lung"
+      },
+      {
+        "value": "headache",
+        "label_en": "Headache or giddiness",
+        "label_hi": "सिरदर्द या चक्कर",
+        "label_mr": "डोकेदुखी किंवा चक्कर",
+        "icon": "head"
+      },
+      {
+        "value": "skin",
+        "label_en": "Skin complaint",
+        "label_hi": "त्वचा की समस्या",
+        "label_mr": "त्वचेची तक्रार",
+        "icon": "skin"
+      },
+      {
+        "value": "other",
+        "label_en": "Something else",
+        "label_hi": "कुछ और",
+        "label_mr": "इतर काही",
+        "icon": "other"
+      }
     ]
   },
   {
@@ -29,7 +77,6 @@
     "prompt_mr": "तुमच्या शब्दांत सांगा तुम्हाला काय त्रास होतो आहे.",
     "input_type": "text"
   },
-
   {
     "node_id": "hpi_onset",
     "section": "hpi",
@@ -40,11 +87,36 @@
     "prompt_mr": "हा त्रास किती दिवसांपासून आहे?",
     "input_type": "choice",
     "options": [
-      {"value": "today", "label_en": "Started today", "label_hi": "आज ही शुरू हुआ", "label_mr": "आजच सुरू झाला"},
-      {"value": "days", "label_en": "A few days", "label_hi": "कुछ दिनों से", "label_mr": "काही दिवसांपासून"},
-      {"value": "weeks", "label_en": "A few weeks", "label_hi": "कुछ हफ्तों से", "label_mr": "काही आठवड्यांपासून"},
-      {"value": "months", "label_en": "Months", "label_hi": "कई महीनों से", "label_mr": "काही महिन्यांपासून"},
-      {"value": "years", "label_en": "A year or more", "label_hi": "एक साल या उससे ज़्यादा", "label_mr": "एक वर्ष किंवा जास्त"}
+      {
+        "value": "today",
+        "label_en": "Started today",
+        "label_hi": "आज ही शुरू हुआ",
+        "label_mr": "आजच सुरू झाला"
+      },
+      {
+        "value": "days",
+        "label_en": "A few days",
+        "label_hi": "कुछ दिनों से",
+        "label_mr": "काही दिवसांपासून"
+      },
+      {
+        "value": "weeks",
+        "label_en": "A few weeks",
+        "label_hi": "कुछ हफ्तों से",
+        "label_mr": "काही आठवड्यांपासून"
+      },
+      {
+        "value": "months",
+        "label_en": "Months",
+        "label_hi": "कई महीनों से",
+        "label_mr": "काही महिन्यांपासून"
+      },
+      {
+        "value": "years",
+        "label_en": "A year or more",
+        "label_hi": "एक साल या उससे ज़्यादा",
+        "label_mr": "एक वर्ष किंवा जास्त"
+      }
     ]
   },
   {
@@ -57,11 +129,36 @@
     "prompt_mr": "आत्ता हा त्रास किती तीव्र आहे?",
     "input_type": "scale",
     "options": [
-      {"value": "1", "label_en": "Mild", "label_hi": "हल्का", "label_mr": "सौम्य"},
-      {"value": "2", "label_en": "Manageable", "label_hi": "सहने लायक", "label_mr": "सहन होणारा"},
-      {"value": "3", "label_en": "Troubling", "label_hi": "परेशान करने वाला", "label_mr": "त्रासदायक"},
-      {"value": "4", "label_en": "Severe", "label_hi": "तेज़", "label_mr": "तीव्र"},
-      {"value": "5", "label_en": "Worst I have felt", "label_hi": "अब तक का सबसे तेज़", "label_mr": "आतापर्यंतचा सर्वात तीव्र"}
+      {
+        "value": "1",
+        "label_en": "Mild",
+        "label_hi": "हल्का",
+        "label_mr": "सौम्य"
+      },
+      {
+        "value": "2",
+        "label_en": "Manageable",
+        "label_hi": "सहने लायक",
+        "label_mr": "सहन होणारा"
+      },
+      {
+        "value": "3",
+        "label_en": "Troubling",
+        "label_hi": "परेशान करने वाला",
+        "label_mr": "त्रासदायक"
+      },
+      {
+        "value": "4",
+        "label_en": "Severe",
+        "label_hi": "तेज़",
+        "label_mr": "तीव्र"
+      },
+      {
+        "value": "5",
+        "label_en": "Worst I have felt",
+        "label_hi": "अब तक का सबसे तेज़",
+        "label_mr": "आतापर्यंतचा सर्वात तीव्र"
+      }
     ]
   },
   {
@@ -74,14 +171,38 @@
     "prompt_mr": "हा त्रास कधी जास्त वाढतो?",
     "input_type": "choice",
     "options": [
-      {"value": "morning", "label_en": "Early morning", "label_hi": "सुबह-सुबह", "label_mr": "पहाटे"},
-      {"value": "day", "label_en": "During the day", "label_hi": "दिन में", "label_mr": "दिवसा"},
-      {"value": "evening", "label_en": "Evening", "label_hi": "शाम को", "label_mr": "संध्याकाळी"},
-      {"value": "night", "label_en": "At night", "label_hi": "रात में", "label_mr": "रात्री"},
-      {"value": "constant", "label_en": "All the time", "label_hi": "हर समय", "label_mr": "सतत"}
+      {
+        "value": "morning",
+        "label_en": "Early morning",
+        "label_hi": "सुबह-सुबह",
+        "label_mr": "पहाटे"
+      },
+      {
+        "value": "day",
+        "label_en": "During the day",
+        "label_hi": "दिन में",
+        "label_mr": "दिवसा"
+      },
+      {
+        "value": "evening",
+        "label_en": "Evening",
+        "label_hi": "शाम को",
+        "label_mr": "संध्याकाळी"
+      },
+      {
+        "value": "night",
+        "label_en": "At night",
+        "label_hi": "रात में",
+        "label_mr": "रात्री"
+      },
+      {
+        "value": "constant",
+        "label_en": "All the time",
+        "label_hi": "हर समय",
+        "label_mr": "सतत"
+      }
     ]
   },
-
   {
     "node_id": "joint_site",
     "section": "hpi",
@@ -93,12 +214,42 @@
     "prompt_mr": "कोणत्या सांध्यांत सर्वाधिक दुखते?",
     "input_type": "multi",
     "options": [
-      {"value": "knee", "label_en": "Knees", "label_hi": "घुटने", "label_mr": "गुडघे"},
-      {"value": "lower_back", "label_en": "Lower back", "label_hi": "कमर", "label_mr": "कंबर"},
-      {"value": "shoulder", "label_en": "Shoulders", "label_hi": "कंधे", "label_mr": "खांदे"},
-      {"value": "fingers", "label_en": "Fingers and wrists", "label_hi": "उंगलियाँ और कलाई", "label_mr": "बोटे आणि मनगट"},
-      {"value": "neck", "label_en": "Neck", "label_hi": "गर्दन", "label_mr": "मान"},
-      {"value": "ankle", "label_en": "Ankles and feet", "label_hi": "टखने और पैर", "label_mr": "घोटे आणि पाय"}
+      {
+        "value": "knee",
+        "label_en": "Knees",
+        "label_hi": "घुटने",
+        "label_mr": "गुडघे"
+      },
+      {
+        "value": "lower_back",
+        "label_en": "Lower back",
+        "label_hi": "कमर",
+        "label_mr": "कंबर"
+      },
+      {
+        "value": "shoulder",
+        "label_en": "Shoulders",
+        "label_hi": "कंधे",
+        "label_mr": "खांदे"
+      },
+      {
+        "value": "fingers",
+        "label_en": "Fingers and wrists",
+        "label_hi": "उंगलियाँ और कलाई",
+        "label_mr": "बोटे आणि मनगट"
+      },
+      {
+        "value": "neck",
+        "label_en": "Neck",
+        "label_hi": "गर्दन",
+        "label_mr": "मान"
+      },
+      {
+        "value": "ankle",
+        "label_en": "Ankles and feet",
+        "label_hi": "टखने और पैर",
+        "label_mr": "घोटे आणि पाय"
+      }
     ]
   },
   {
@@ -112,9 +263,24 @@
     "prompt_mr": "सकाळी उठल्यावर जखडल्यासारखे वाटते का?",
     "input_type": "choice",
     "options": [
-      {"value": "none", "label_en": "No stiffness", "label_hi": "नहीं", "label_mr": "नाही"},
-      {"value": "under30", "label_en": "Loosens within half an hour", "label_hi": "आधे घंटे में ठीक हो जाती है", "label_mr": "अर्ध्या तासात कमी होते"},
-      {"value": "over30", "label_en": "Lasts more than half an hour", "label_hi": "आधे घंटे से ज़्यादा रहती है", "label_mr": "अर्ध्या तासापेक्षा जास्त राहते"}
+      {
+        "value": "none",
+        "label_en": "No stiffness",
+        "label_hi": "नहीं",
+        "label_mr": "नाही"
+      },
+      {
+        "value": "under30",
+        "label_en": "Loosens within half an hour",
+        "label_hi": "आधे घंटे में ठीक हो जाती है",
+        "label_mr": "अर्ध्या तासात कमी होते"
+      },
+      {
+        "value": "over30",
+        "label_en": "Lasts more than half an hour",
+        "label_hi": "आधे घंटे से ज़्यादा रहती है",
+        "label_mr": "अर्ध्या तासापेक्षा जास्त राहते"
+      }
     ]
   },
   {
@@ -127,12 +293,27 @@
     "prompt_mr": "सांध्याला सूज, उष्णता किंवा लालसरपणा आहे का?",
     "input_type": "choice",
     "options": [
-      {"value": "no", "label_en": "No", "label_hi": "नहीं", "label_mr": "नाही"},
-      {"value": "swelling", "label_en": "Swollen only", "label_hi": "सिर्फ सूजन", "label_mr": "फक्त सूज"},
-      {"value": "hot_red", "label_en": "Swollen, warm and red", "label_hi": "सूजन, गर्मी और लाली", "label_mr": "सूज, उष्णता आणि लालसरपणा"}
-    ]
+      {
+        "value": "no",
+        "label_en": "No",
+        "label_hi": "नहीं",
+        "label_mr": "नाही"
+      },
+      {
+        "value": "swelling",
+        "label_en": "Swollen only",
+        "label_hi": "सिर्फ सूजन",
+        "label_mr": "फक्त सूज"
+      },
+      {
+        "value": "hot_red",
+        "label_en": "Swollen, warm and red",
+        "label_hi": "सूजन, गर्मी और लाली",
+        "label_mr": "सूज, उष्णता आणि लालसरपणा"
+      }
+    ],
+    "socrates_slot": "associated"
   },
-
   {
     "node_id": "chest_character",
     "section": "hpi",
@@ -144,10 +325,30 @@
     "prompt_mr": "छातीतील वेदना कशी वाटते?",
     "input_type": "choice",
     "options": [
-      {"value": "pressure", "label_en": "Heavy pressure or squeezing", "label_hi": "भारीपन या दबाव", "label_mr": "जडपणा किंवा दाब"},
-      {"value": "burning", "label_en": "Burning", "label_hi": "जलन", "label_mr": "जळजळ"},
-      {"value": "sharp", "label_en": "Sharp and stabbing", "label_hi": "तेज़ चुभन", "label_mr": "तीक्ष्ण टोचणारी"},
-      {"value": "unsure", "label_en": "Hard to say", "label_hi": "बता नहीं सकते", "label_mr": "सांगता येत नाही"}
+      {
+        "value": "pressure",
+        "label_en": "Heavy pressure or squeezing",
+        "label_hi": "भारीपन या दबाव",
+        "label_mr": "जडपणा किंवा दाब"
+      },
+      {
+        "value": "burning",
+        "label_en": "Burning",
+        "label_hi": "जलन",
+        "label_mr": "जळजळ"
+      },
+      {
+        "value": "sharp",
+        "label_en": "Sharp and stabbing",
+        "label_hi": "तेज़ चुभन",
+        "label_mr": "तीक्ष्ण टोचणारी"
+      },
+      {
+        "value": "unsure",
+        "label_en": "Hard to say",
+        "label_hi": "बता नहीं सकते",
+        "label_mr": "सांगता येत नाही"
+      }
     ]
   },
   {
@@ -161,10 +362,30 @@
     "prompt_mr": "वेदना हातात, जबड्यात किंवा पाठीत जाते का?",
     "input_type": "choice",
     "options": [
-      {"value": "no", "label_en": "No", "label_hi": "नहीं", "label_mr": "नाही"},
-      {"value": "left_arm", "label_en": "Yes, left arm", "label_hi": "हाँ, बाईं बाँह में", "label_mr": "होय, डाव्या हातात"},
-      {"value": "jaw", "label_en": "Yes, jaw or neck", "label_hi": "हाँ, जबड़े या गर्दन में", "label_mr": "होय, जबडा किंवा मानेत"},
-      {"value": "back", "label_en": "Yes, to the back", "label_hi": "हाँ, पीठ की ओर", "label_mr": "होय, पाठीकडे"}
+      {
+        "value": "no",
+        "label_en": "No",
+        "label_hi": "नहीं",
+        "label_mr": "नाही"
+      },
+      {
+        "value": "left_arm",
+        "label_en": "Yes, left arm",
+        "label_hi": "हाँ, बाईं बाँह में",
+        "label_mr": "होय, डाव्या हातात"
+      },
+      {
+        "value": "jaw",
+        "label_en": "Yes, jaw or neck",
+        "label_hi": "हाँ, जबड़े या गर्दन में",
+        "label_mr": "होय, जबडा किंवा मानेत"
+      },
+      {
+        "value": "back",
+        "label_en": "Yes, to the back",
+        "label_hi": "हाँ, पीठ की ओर",
+        "label_mr": "होय, पाठीकडे"
+      }
     ]
   },
   {
@@ -178,14 +399,38 @@
     "prompt_mr": "वेदनेसोबत आणखी काही होते का?",
     "input_type": "multi",
     "options": [
-      {"value": "sweating", "label_en": "Cold sweating", "label_hi": "ठंडा पसीना", "label_mr": "थंड घाम"},
-      {"value": "breathless", "label_en": "Breathlessness", "label_hi": "साँस फूलना", "label_mr": "धाप लागणे"},
-      {"value": "vomiting", "label_en": "Nausea or vomiting", "label_hi": "उल्टी या जी मिचलाना", "label_mr": "मळमळ किंवा उलटी"},
-      {"value": "fainting", "label_en": "Fainting or blackout", "label_hi": "बेहोशी", "label_mr": "चक्कर येऊन पडणे"},
-      {"value": "none", "label_en": "Nothing else", "label_hi": "और कुछ नहीं", "label_mr": "दुसरे काही नाही"}
+      {
+        "value": "sweating",
+        "label_en": "Cold sweating",
+        "label_hi": "ठंडा पसीना",
+        "label_mr": "थंड घाम"
+      },
+      {
+        "value": "breathless",
+        "label_en": "Breathlessness",
+        "label_hi": "साँस फूलना",
+        "label_mr": "धाप लागणे"
+      },
+      {
+        "value": "vomiting",
+        "label_en": "Nausea or vomiting",
+        "label_hi": "उल्टी या जी मिचलाना",
+        "label_mr": "मळमळ किंवा उलटी"
+      },
+      {
+        "value": "fainting",
+        "label_en": "Fainting or blackout",
+        "label_hi": "बेहोशी",
+        "label_mr": "चक्कर येऊन पडणे"
+      },
+      {
+        "value": "none",
+        "label_en": "Nothing else",
+        "label_hi": "और कुछ नहीं",
+        "label_mr": "दुसरे काही नाही"
+      }
     ]
   },
-
   {
     "node_id": "abd_character",
     "section": "hpi",
@@ -197,12 +442,42 @@
     "prompt_mr": "पोटाची मुख्य तक्रार काय आहे?",
     "input_type": "multi",
     "options": [
-      {"value": "pain", "label_en": "Pain", "label_hi": "दर्द", "label_mr": "दुखणे"},
-      {"value": "bloating", "label_en": "Bloating and gas", "label_hi": "गैस और फूलना", "label_mr": "गॅस आणि फुगणे"},
-      {"value": "acidity", "label_en": "Acidity or burning", "label_hi": "अम्लता या जलन", "label_mr": "आम्लपित्त किंवा जळजळ"},
-      {"value": "loose", "label_en": "Loose motions", "label_hi": "दस्त", "label_mr": "जुलाब"},
-      {"value": "constipation", "label_en": "Constipation", "label_hi": "कब्ज़", "label_mr": "बद्धकोष्ठता"},
-      {"value": "blood_stool", "label_en": "Blood in stool", "label_hi": "मल में खून", "label_mr": "शौचातून रक्त"}
+      {
+        "value": "pain",
+        "label_en": "Pain",
+        "label_hi": "दर्द",
+        "label_mr": "दुखणे"
+      },
+      {
+        "value": "bloating",
+        "label_en": "Bloating and gas",
+        "label_hi": "गैस और फूलना",
+        "label_mr": "गॅस आणि फुगणे"
+      },
+      {
+        "value": "acidity",
+        "label_en": "Acidity or burning",
+        "label_hi": "अम्लता या जलन",
+        "label_mr": "आम्लपित्त किंवा जळजळ"
+      },
+      {
+        "value": "loose",
+        "label_en": "Loose motions",
+        "label_hi": "दस्त",
+        "label_mr": "जुलाब"
+      },
+      {
+        "value": "constipation",
+        "label_en": "Constipation",
+        "label_hi": "कब्ज़",
+        "label_mr": "बद्धकोष्ठता"
+      },
+      {
+        "value": "blood_stool",
+        "label_en": "Blood in stool",
+        "label_hi": "मल में खून",
+        "label_mr": "शौचातून रक्त"
+      }
     ]
   },
   {
@@ -216,10 +491,30 @@
     "prompt_mr": "ताप कसा येतो?",
     "input_type": "choice",
     "options": [
-      {"value": "continuous", "label_en": "Stays all day", "label_hi": "दिन भर बना रहता है", "label_mr": "दिवसभर राहतो"},
-      {"value": "intermittent", "label_en": "Comes and goes", "label_hi": "आता-जाता है", "label_mr": "येतो आणि जातो"},
-      {"value": "with_chills", "label_en": "With shivering", "label_hi": "कँपकँपी के साथ", "label_mr": "थंडी वाजून"},
-      {"value": "evening", "label_en": "Rises in the evening", "label_hi": "शाम को बढ़ता है", "label_mr": "संध्याकाळी वाढतो"}
+      {
+        "value": "continuous",
+        "label_en": "Stays all day",
+        "label_hi": "दिन भर बना रहता है",
+        "label_mr": "दिवसभर राहतो"
+      },
+      {
+        "value": "intermittent",
+        "label_en": "Comes and goes",
+        "label_hi": "आता-जाता है",
+        "label_mr": "येतो आणि जातो"
+      },
+      {
+        "value": "with_chills",
+        "label_en": "With shivering",
+        "label_hi": "कँपकँपी के साथ",
+        "label_mr": "थंडी वाजून"
+      },
+      {
+        "value": "evening",
+        "label_en": "Rises in the evening",
+        "label_hi": "शाम को बढ़ता है",
+        "label_mr": "संध्याकाळी वाढतो"
+      }
     ]
   },
   {
@@ -232,11 +527,32 @@
     "prompt_mr": "धाप कधी लागते?",
     "input_type": "choice",
     "options": [
-      {"value": "exertion", "label_en": "On walking or climbing", "label_hi": "चलने या चढ़ने पर", "label_mr": "चालताना किंवा चढताना"},
-      {"value": "rest", "label_en": "Even while sitting still", "label_hi": "बैठे-बैठे भी", "label_mr": "बसल्या जागीसुद्धा"},
-      {"value": "night", "label_en": "At night, wakes me up", "label_hi": "रात में नींद खुल जाती है", "label_mr": "रात्री जाग येते"},
-      {"value": "dust", "label_en": "With dust or cold air", "label_hi": "धूल या ठंडी हवा में", "label_mr": "धूळ किंवा थंड हवेत"}
-    ]
+      {
+        "value": "exertion",
+        "label_en": "On walking or climbing",
+        "label_hi": "चलने या चढ़ने पर",
+        "label_mr": "चालताना किंवा चढताना"
+      },
+      {
+        "value": "rest",
+        "label_en": "Even while sitting still",
+        "label_hi": "बैठे-बैठे भी",
+        "label_mr": "बसल्या जागीसुद्धा"
+      },
+      {
+        "value": "night",
+        "label_en": "At night, wakes me up",
+        "label_hi": "रात में नींद खुल जाती है",
+        "label_mr": "रात्री जाग येते"
+      },
+      {
+        "value": "dust",
+        "label_en": "With dust or cold air",
+        "label_hi": "धूल या ठंडी हवा में",
+        "label_mr": "धूळ किंवा थंड हवेत"
+      }
+    ],
+    "socrates_slot": "exacerbating"
   },
   {
     "node_id": "headache_features",
@@ -249,11 +565,36 @@
     "prompt_mr": "डोकेदुखीसोबत यापैकी काही होते का?",
     "input_type": "multi",
     "options": [
-      {"value": "thunderclap", "label_en": "Started suddenly, like a blow", "label_hi": "अचानक, ज़ोरदार तरीके से शुरू हुआ", "label_mr": "अचानक, जोरात सुरू झाले"},
-      {"value": "weakness", "label_en": "Weakness on one side", "label_hi": "एक तरफ कमज़ोरी", "label_mr": "एका बाजूला अशक्तपणा"},
-      {"value": "speech", "label_en": "Trouble speaking", "label_hi": "बोलने में दिक्कत", "label_mr": "बोलण्यात अडचण"},
-      {"value": "vision", "label_en": "Blurred or double vision", "label_hi": "धुंधला दिखना", "label_mr": "अंधुक दिसणे"},
-      {"value": "none", "label_en": "None of these", "label_hi": "इनमें से कुछ नहीं", "label_mr": "यापैकी काही नाही"}
+      {
+        "value": "thunderclap",
+        "label_en": "Started suddenly, like a blow",
+        "label_hi": "अचानक, ज़ोरदार तरीके से शुरू हुआ",
+        "label_mr": "अचानक, जोरात सुरू झाले"
+      },
+      {
+        "value": "weakness",
+        "label_en": "Weakness on one side",
+        "label_hi": "एक तरफ कमज़ोरी",
+        "label_mr": "एका बाजूला अशक्तपणा"
+      },
+      {
+        "value": "speech",
+        "label_en": "Trouble speaking",
+        "label_hi": "बोलने में दिक्कत",
+        "label_mr": "बोलण्यात अडचण"
+      },
+      {
+        "value": "vision",
+        "label_en": "Blurred or double vision",
+        "label_hi": "धुंधला दिखना",
+        "label_mr": "अंधुक दिसणे"
+      },
+      {
+        "value": "none",
+        "label_en": "None of these",
+        "label_hi": "इनमें से कुछ नहीं",
+        "label_mr": "यापैकी काही नाही"
+      }
     ]
   },
   {
@@ -266,12 +607,27 @@
     "prompt_mr": "हे किती भागात पसरले आहे?",
     "input_type": "choice",
     "options": [
-      {"value": "patch", "label_en": "One or two patches", "label_hi": "एक-दो जगह", "label_mr": "एक-दोन ठिकाणी"},
-      {"value": "limb", "label_en": "A whole arm or leg", "label_hi": "पूरा हाथ या पैर", "label_mr": "संपूर्ण हात किंवा पाय"},
-      {"value": "body", "label_en": "Most of the body", "label_hi": "लगभग पूरे शरीर पर", "label_mr": "जवळपास संपूर्ण शरीरावर"}
-    ]
+      {
+        "value": "patch",
+        "label_en": "One or two patches",
+        "label_hi": "एक-दो जगह",
+        "label_mr": "एक-दोन ठिकाणी"
+      },
+      {
+        "value": "limb",
+        "label_en": "A whole arm or leg",
+        "label_hi": "पूरा हाथ या पैर",
+        "label_mr": "संपूर्ण हात किंवा पाय"
+      },
+      {
+        "value": "body",
+        "label_en": "Most of the body",
+        "label_hi": "लगभग पूरे शरीर पर",
+        "label_mr": "जवळपास संपूर्ण शरीरावर"
+      }
+    ],
+    "socrates_slot": "radiation"
   },
-
   {
     "node_id": "red_general",
     "section": "ros",
@@ -281,11 +637,36 @@
     "prompt_mr": "गेल्या काही दिवसांत यापैकी काही झाले आहे का?",
     "input_type": "multi",
     "options": [
-      {"value": "weight_loss", "label_en": "Losing weight without trying", "label_hi": "बिना कोशिश के वज़न घटना", "label_mr": "विनाकारण वजन कमी होणे"},
-      {"value": "bleeding", "label_en": "Bleeding from anywhere", "label_hi": "कहीं से खून आना", "label_mr": "कुठूनही रक्तस्त्राव"},
-      {"value": "fainting", "label_en": "Fainting", "label_hi": "बेहोश होना", "label_mr": "बेशुद्ध पडणे"},
-      {"value": "no_urine", "label_en": "Passing very little urine", "label_hi": "पेशाब बहुत कम आना", "label_mr": "लघवी खूप कमी होणे"},
-      {"value": "none", "label_en": "None of these", "label_hi": "इनमें से कुछ नहीं", "label_mr": "यापैकी काही नाही"}
+      {
+        "value": "weight_loss",
+        "label_en": "Losing weight without trying",
+        "label_hi": "बिना कोशिश के वज़न घटना",
+        "label_mr": "विनाकारण वजन कमी होणे"
+      },
+      {
+        "value": "bleeding",
+        "label_en": "Bleeding from anywhere",
+        "label_hi": "कहीं से खून आना",
+        "label_mr": "कुठूनही रक्तस्त्राव"
+      },
+      {
+        "value": "fainting",
+        "label_en": "Fainting",
+        "label_hi": "बेहोश होना",
+        "label_mr": "बेशुद्ध पडणे"
+      },
+      {
+        "value": "no_urine",
+        "label_en": "Passing very little urine",
+        "label_hi": "पेशाब बहुत कम आना",
+        "label_mr": "लघवी खूप कमी होणे"
+      },
+      {
+        "value": "none",
+        "label_en": "None of these",
+        "label_hi": "इनमें से कुछ नहीं",
+        "label_mr": "यापैकी काही नाही"
+      }
     ]
   },
   {
@@ -297,12 +678,42 @@
     "prompt_mr": "तुम्हाला यापैकी कोणता जुना आजार आहे का?",
     "input_type": "multi",
     "options": [
-      {"value": "diabetes", "label_en": "Diabetes", "label_hi": "मधुमेह", "label_mr": "मधुमेह"},
-      {"value": "hypertension", "label_en": "High blood pressure", "label_hi": "उच्च रक्तचाप", "label_mr": "उच्च रक्तदाब"},
-      {"value": "thyroid", "label_en": "Thyroid problem", "label_hi": "थायरॉइड", "label_mr": "थायरॉईड"},
-      {"value": "asthma", "label_en": "Asthma", "label_hi": "दमा", "label_mr": "दमा"},
-      {"value": "heart", "label_en": "Heart disease", "label_hi": "हृदय रोग", "label_mr": "हृदयविकार"},
-      {"value": "none", "label_en": "None", "label_hi": "कोई नहीं", "label_mr": "काहीही नाही"}
+      {
+        "value": "diabetes",
+        "label_en": "Diabetes",
+        "label_hi": "मधुमेह",
+        "label_mr": "मधुमेह"
+      },
+      {
+        "value": "hypertension",
+        "label_en": "High blood pressure",
+        "label_hi": "उच्च रक्तचाप",
+        "label_mr": "उच्च रक्तदाब"
+      },
+      {
+        "value": "thyroid",
+        "label_en": "Thyroid problem",
+        "label_hi": "थायरॉइड",
+        "label_mr": "थायरॉईड"
+      },
+      {
+        "value": "asthma",
+        "label_en": "Asthma",
+        "label_hi": "दमा",
+        "label_mr": "दमा"
+      },
+      {
+        "value": "heart",
+        "label_en": "Heart disease",
+        "label_hi": "हृदय रोग",
+        "label_mr": "हृदयविकार"
+      },
+      {
+        "value": "none",
+        "label_en": "None",
+        "label_hi": "कोई नहीं",
+        "label_mr": "काहीही नाही"
+      }
     ]
   },
   {
@@ -314,8 +725,18 @@
     "prompt_mr": "पूर्वी कोणती शस्त्रक्रिया किंवा दाखल होणे झाले आहे का?",
     "input_type": "choice",
     "options": [
-      {"value": "no", "label_en": "No", "label_hi": "नहीं", "label_mr": "नाही"},
-      {"value": "yes", "label_en": "Yes", "label_hi": "हाँ", "label_mr": "होय"}
+      {
+        "value": "no",
+        "label_en": "No",
+        "label_hi": "नहीं",
+        "label_mr": "नाही"
+      },
+      {
+        "value": "yes",
+        "label_en": "Yes",
+        "label_hi": "हाँ",
+        "label_mr": "होय"
+      }
     ]
   },
   {
@@ -347,9 +768,24 @@
     "prompt_mr": "कोणत्या औषधाने किंवा अन्नाने कधी पुरळ किंवा त्रास झाला आहे का?",
     "input_type": "choice",
     "options": [
-      {"value": "no", "label_en": "No", "label_hi": "नहीं", "label_mr": "नाही"},
-      {"value": "yes", "label_en": "Yes", "label_hi": "हाँ", "label_mr": "होय"},
-      {"value": "unsure", "label_en": "Not sure", "label_hi": "पता नहीं", "label_mr": "माहीत नाही"}
+      {
+        "value": "no",
+        "label_en": "No",
+        "label_hi": "नहीं",
+        "label_mr": "नाही"
+      },
+      {
+        "value": "yes",
+        "label_en": "Yes",
+        "label_hi": "हाँ",
+        "label_mr": "होय"
+      },
+      {
+        "value": "unsure",
+        "label_en": "Not sure",
+        "label_hi": "पता नहीं",
+        "label_mr": "माहीत नाही"
+      }
     ]
   },
   {
@@ -372,11 +808,36 @@
     "prompt_mr": "कुटुंबात कोणाला हे आहे का?",
     "input_type": "multi",
     "options": [
-      {"value": "diabetes", "label_en": "Diabetes", "label_hi": "मधुमेह", "label_mr": "मधुमेह"},
-      {"value": "hypertension", "label_en": "High blood pressure", "label_hi": "उच्च रक्तचाप", "label_mr": "उच्च रक्तदाब"},
-      {"value": "heart", "label_en": "Heart disease", "label_hi": "हृदय रोग", "label_mr": "हृदयविकार"},
-      {"value": "arthritis", "label_en": "Joint disease", "label_hi": "जोड़ों का रोग", "label_mr": "सांधेविकार"},
-      {"value": "none", "label_en": "None known", "label_hi": "जानकारी में नहीं", "label_mr": "माहितीत नाही"}
+      {
+        "value": "diabetes",
+        "label_en": "Diabetes",
+        "label_hi": "मधुमेह",
+        "label_mr": "मधुमेह"
+      },
+      {
+        "value": "hypertension",
+        "label_en": "High blood pressure",
+        "label_hi": "उच्च रक्तचाप",
+        "label_mr": "उच्च रक्तदाब"
+      },
+      {
+        "value": "heart",
+        "label_en": "Heart disease",
+        "label_hi": "हृदय रोग",
+        "label_mr": "हृदयविकार"
+      },
+      {
+        "value": "arthritis",
+        "label_en": "Joint disease",
+        "label_hi": "जोड़ों का रोग",
+        "label_mr": "सांधेविकार"
+      },
+      {
+        "value": "none",
+        "label_en": "None known",
+        "label_hi": "जानकारी में नहीं",
+        "label_mr": "माहितीत नाही"
+      }
     ]
   },
   {
@@ -388,10 +849,30 @@
     "prompt_mr": "तुम्ही यापैकी काही घेता का?",
     "input_type": "multi",
     "options": [
-      {"value": "tobacco", "label_en": "Tobacco or gutkha", "label_hi": "तंबाकू या गुटखा", "label_mr": "तंबाखू किंवा गुटखा"},
-      {"value": "smoking", "label_en": "Smoking", "label_hi": "धूम्रपान", "label_mr": "धूम्रपान"},
-      {"value": "alcohol", "label_en": "Alcohol", "label_hi": "शराब", "label_mr": "मद्य"},
-      {"value": "none", "label_en": "None", "label_hi": "कुछ नहीं", "label_mr": "काहीही नाही"}
+      {
+        "value": "tobacco",
+        "label_en": "Tobacco or gutkha",
+        "label_hi": "तंबाकू या गुटखा",
+        "label_mr": "तंबाखू किंवा गुटखा"
+      },
+      {
+        "value": "smoking",
+        "label_en": "Smoking",
+        "label_hi": "धूम्रपान",
+        "label_mr": "धूम्रपान"
+      },
+      {
+        "value": "alcohol",
+        "label_en": "Alcohol",
+        "label_hi": "शराब",
+        "label_mr": "मद्य"
+      },
+      {
+        "value": "none",
+        "label_en": "None",
+        "label_hi": "कुछ नहीं",
+        "label_mr": "काहीही नाही"
+      }
     ]
   },
   {
@@ -403,12 +884,26 @@
     "prompt_mr": "तुमची झोप कशी आहे?",
     "input_type": "choice",
     "options": [
-      {"value": "good", "label_en": "Sound sleep", "label_hi": "गहरी नींद", "label_mr": "शांत झोप"},
-      {"value": "broken", "label_en": "Breaks often", "label_hi": "बार-बार टूटती है", "label_mr": "वारंवार मोडते"},
-      {"value": "poor", "label_en": "Very little sleep", "label_hi": "बहुत कम नींद", "label_mr": "खूप कमी झोप"}
+      {
+        "value": "good",
+        "label_en": "Sound sleep",
+        "label_hi": "गहरी नींद",
+        "label_mr": "शांत झोप"
+      },
+      {
+        "value": "broken",
+        "label_en": "Breaks often",
+        "label_hi": "बार-बार टूटती है",
+        "label_mr": "वारंवार मोडते"
+      },
+      {
+        "value": "poor",
+        "label_en": "Very little sleep",
+        "label_hi": "बहुत कम नींद",
+        "label_mr": "खूप कमी झोप"
+      }
     ]
   },
-
   {
     "node_id": "dv_vaya",
     "section": "dashavidha",
@@ -419,9 +914,24 @@
     "prompt_mr": "तुम्ही आयुष्याच्या कोणत्या टप्प्यात आहात?",
     "input_type": "choice",
     "options": [
-      {"value": "bala", "label_en": "Under 16 (Bala)", "label_hi": "16 से कम (बाल)", "label_mr": "१६ पेक्षा कमी (बाल)"},
-      {"value": "madhya", "label_en": "16 to 60 (Madhya)", "label_hi": "16 से 60 (मध्य)", "label_mr": "१६ ते ६० (मध्य)"},
-      {"value": "vriddha", "label_en": "Over 60 (Vriddha)", "label_hi": "60 से ऊपर (वृद्ध)", "label_mr": "६० च्या पुढे (वृद्ध)"}
+      {
+        "value": "bala",
+        "label_en": "Under 16 (Bala)",
+        "label_hi": "16 से कम (बाल)",
+        "label_mr": "१६ पेक्षा कमी (बाल)"
+      },
+      {
+        "value": "madhya",
+        "label_en": "16 to 60 (Madhya)",
+        "label_hi": "16 से 60 (मध्य)",
+        "label_mr": "१६ ते ६० (मध्य)"
+      },
+      {
+        "value": "vriddha",
+        "label_en": "Over 60 (Vriddha)",
+        "label_hi": "60 से ऊपर (वृद्ध)",
+        "label_mr": "६० च्या पुढे (वृद्ध)"
+      }
     ]
   },
   {
@@ -434,10 +944,30 @@
     "prompt_mr": "तुमची भूक आणि पचन कसे आहे?",
     "input_type": "choice",
     "options": [
-      {"value": "sama", "label_en": "Regular, food digests well (Sama)", "label_hi": "नियमित, खाना अच्छे से पचता है (सम)", "label_mr": "नियमित, अन्न नीट पचते (सम)"},
-      {"value": "vishama", "label_en": "Irregular, sometimes heavy (Vishama)", "label_hi": "अनियमित, कभी भारीपन (विषम)", "label_mr": "अनियमित, कधी जडपणा (विषम)"},
-      {"value": "tikshna", "label_en": "Very strong, hungry soon again (Tikshna)", "label_hi": "बहुत तेज़, जल्दी भूख (तीक्ष्ण)", "label_mr": "खूप तीव्र, लवकर भूक (तीक्ष्ण)"},
-      {"value": "manda", "label_en": "Weak, little appetite (Manda)", "label_hi": "कमज़ोर, भूख कम (मंद)", "label_mr": "कमजोर, भूक कमी (मंद)"}
+      {
+        "value": "sama",
+        "label_en": "Regular, food digests well (Sama)",
+        "label_hi": "नियमित, खाना अच्छे से पचता है (सम)",
+        "label_mr": "नियमित, अन्न नीट पचते (सम)"
+      },
+      {
+        "value": "vishama",
+        "label_en": "Irregular, sometimes heavy (Vishama)",
+        "label_hi": "अनियमित, कभी भारीपन (विषम)",
+        "label_mr": "अनियमित, कधी जडपणा (विषम)"
+      },
+      {
+        "value": "tikshna",
+        "label_en": "Very strong, hungry soon again (Tikshna)",
+        "label_hi": "बहुत तेज़, जल्दी भूख (तीक्ष्ण)",
+        "label_mr": "खूप तीव्र, लवकर भूक (तीक्ष्ण)"
+      },
+      {
+        "value": "manda",
+        "label_en": "Weak, little appetite (Manda)",
+        "label_hi": "कमज़ोर, भूख कम (मंद)",
+        "label_mr": "कमजोर, भूक कमी (मंद)"
+      }
     ]
   },
   {
@@ -450,9 +980,24 @@
     "prompt_mr": "तुमचे शौचास साधारण कसे होते?",
     "input_type": "choice",
     "options": [
-      {"value": "mridu", "label_en": "Soft, easy, sometimes loose (Mridu)", "label_hi": "मुलायम, आसान, कभी ढीला (मृदु)", "label_mr": "मऊ, सोपे, कधी पातळ (मृदु)"},
-      {"value": "madhyama", "label_en": "Regular once a day (Madhyama)", "label_hi": "रोज़ एक बार नियमित (मध्यम)", "label_mr": "रोज एकदा नियमित (मध्यम)"},
-      {"value": "krura", "label_en": "Hard, needs effort (Krura)", "label_hi": "कठोर, ज़ोर लगाना पड़ता है (क्रूर)", "label_mr": "कठीण, जोर लावावा लागतो (क्रूर)"}
+      {
+        "value": "mridu",
+        "label_en": "Soft, easy, sometimes loose (Mridu)",
+        "label_hi": "मुलायम, आसान, कभी ढीला (मृदु)",
+        "label_mr": "मऊ, सोपे, कधी पातळ (मृदु)"
+      },
+      {
+        "value": "madhyama",
+        "label_en": "Regular once a day (Madhyama)",
+        "label_hi": "रोज़ एक बार नियमित (मध्यम)",
+        "label_mr": "रोज एकदा नियमित (मध्यम)"
+      },
+      {
+        "value": "krura",
+        "label_en": "Hard, needs effort (Krura)",
+        "label_hi": "कठोर, ज़ोर लगाना पड़ता है (क्रूर)",
+        "label_mr": "कठीण, जोर लावावा लागतो (क्रूर)"
+      }
     ]
   },
   {
@@ -465,10 +1010,30 @@
     "prompt_mr": "जेवणात तुम्हाला कोणती चव स्वाभाविकपणे आवडते?",
     "input_type": "choice",
     "options": [
-      {"value": "madhura", "label_en": "Sweet (Madhura)", "label_hi": "मधुर", "label_mr": "गोड"},
-      {"value": "amla_lavana", "label_en": "Sour and salty (Amla, Lavana)", "label_hi": "खट्टा और नमकीन", "label_mr": "आंबट आणि खारट"},
-      {"value": "katu_tikta", "label_en": "Pungent and bitter (Katu, Tikta)", "label_hi": "तीखा और कड़वा", "label_mr": "तिखट आणि कडू"},
-      {"value": "mixed", "label_en": "No particular preference", "label_hi": "कोई खास पसंद नहीं", "label_mr": "विशेष आवड नाही"}
+      {
+        "value": "madhura",
+        "label_en": "Sweet (Madhura)",
+        "label_hi": "मधुर",
+        "label_mr": "गोड"
+      },
+      {
+        "value": "amla_lavana",
+        "label_en": "Sour and salty (Amla, Lavana)",
+        "label_hi": "खट्टा और नमकीन",
+        "label_mr": "आंबट आणि खारट"
+      },
+      {
+        "value": "katu_tikta",
+        "label_en": "Pungent and bitter (Katu, Tikta)",
+        "label_hi": "तीखा और कड़वा",
+        "label_mr": "तिखट आणि कडू"
+      },
+      {
+        "value": "mixed",
+        "label_en": "No particular preference",
+        "label_hi": "कोई खास पसंद नहीं",
+        "label_mr": "विशेष आवड नाही"
+      }
     ]
   },
   {
@@ -481,9 +1046,24 @@
     "prompt_mr": "थकण्यापूर्वी तुम्ही किती शारीरिक काम करू शकता?",
     "input_type": "choice",
     "options": [
-      {"value": "pravara", "label_en": "A full day's hard work (Pravara)", "label_hi": "पूरे दिन का भारी काम (प्रवर)", "label_mr": "पूर्ण दिवस कष्टाचे काम (प्रवर)"},
-      {"value": "madhyama", "label_en": "Moderate work (Madhyama)", "label_hi": "मध्यम काम (मध्यम)", "label_mr": "मध्यम काम (मध्यम)"},
-      {"value": "avara", "label_en": "Tire very quickly (Avara)", "label_hi": "बहुत जल्दी थक जाते हैं (अवर)", "label_mr": "फार लवकर थकतो (अवर)"}
+      {
+        "value": "pravara",
+        "label_en": "A full day's hard work (Pravara)",
+        "label_hi": "पूरे दिन का भारी काम (प्रवर)",
+        "label_mr": "पूर्ण दिवस कष्टाचे काम (प्रवर)"
+      },
+      {
+        "value": "madhyama",
+        "label_en": "Moderate work (Madhyama)",
+        "label_hi": "मध्यम काम (मध्यम)",
+        "label_mr": "मध्यम काम (मध्यम)"
+      },
+      {
+        "value": "avara",
+        "label_en": "Tire very quickly (Avara)",
+        "label_hi": "बहुत जल्दी थक जाते हैं (अवर)",
+        "label_mr": "फार लवकर थकतो (अवर)"
+      }
     ]
   },
   {
@@ -496,9 +1076,24 @@
     "prompt_mr": "अडचण किंवा वाईट बातमी तुम्ही सहसा कशी हाताळता?",
     "input_type": "choice",
     "options": [
-      {"value": "pravara", "label_en": "Stay steady (Pravara)", "label_hi": "स्थिर रहते हैं (प्रवर)", "label_mr": "स्थिर राहतो (प्रवर)"},
-      {"value": "madhyama", "label_en": "Shaken but recover (Madhyama)", "label_hi": "हिल जाते हैं पर संभल जाते हैं (मध्यम)", "label_mr": "हादरतो पण सावरतो (मध्यम)"},
-      {"value": "avara", "label_en": "Disturbed for a long time (Avara)", "label_hi": "लंबे समय तक परेशान रहते हैं (अवर)", "label_mr": "बराच काळ अस्वस्थ राहतो (अवर)"}
+      {
+        "value": "pravara",
+        "label_en": "Stay steady (Pravara)",
+        "label_hi": "स्थिर रहते हैं (प्रवर)",
+        "label_mr": "स्थिर राहतो (प्रवर)"
+      },
+      {
+        "value": "madhyama",
+        "label_en": "Shaken but recover (Madhyama)",
+        "label_hi": "हिल जाते हैं पर संभल जाते हैं (मध्यम)",
+        "label_mr": "हादरतो पण सावरतो (मध्यम)"
+      },
+      {
+        "value": "avara",
+        "label_en": "Disturbed for a long time (Avara)",
+        "label_hi": "लंबे समय तक परेशान रहते हैं (अवर)",
+        "label_mr": "बराच काळ अस्वस्थ राहतो (अवर)"
+      }
     ]
   },
   {
@@ -511,9 +1106,24 @@
     "prompt_mr": "लहानपणापासून तुमची शरीरयष्टी कशी आहे?",
     "input_type": "choice",
     "options": [
-      {"value": "vata", "label_en": "Thin, gain weight with difficulty", "label_hi": "पतला, वज़न मुश्किल से बढ़ता है", "label_mr": "बारीक, वजन कठीणपणे वाढते"},
-      {"value": "pitta", "label_en": "Medium, warm-bodied", "label_hi": "मध्यम, शरीर गर्म रहता है", "label_mr": "मध्यम, शरीर उष्ण"},
-      {"value": "kapha", "label_en": "Heavy, gain weight easily", "label_hi": "भारी, वज़न आसानी से बढ़ता है", "label_mr": "जड, वजन सहज वाढते"}
+      {
+        "value": "vata",
+        "label_en": "Thin, gain weight with difficulty",
+        "label_hi": "पतला, वज़न मुश्किल से बढ़ता है",
+        "label_mr": "बारीक, वजन कठीणपणे वाढते"
+      },
+      {
+        "value": "pitta",
+        "label_en": "Medium, warm-bodied",
+        "label_hi": "मध्यम, शरीर गर्म रहता है",
+        "label_mr": "मध्यम, शरीर उष्ण"
+      },
+      {
+        "value": "kapha",
+        "label_en": "Heavy, gain weight easily",
+        "label_hi": "भारी, वज़न आसानी से बढ़ता है",
+        "label_mr": "जड, वजन सहज वाढते"
+      }
     ]
   },
   {
@@ -526,12 +1136,26 @@
     "prompt_mr": "कोणते हवामान तुम्हाला सर्वाधिक त्रास देते?",
     "input_type": "choice",
     "options": [
-      {"value": "vata", "label_en": "Cold and windy days", "label_hi": "ठंड और हवा वाले दिन", "label_mr": "थंड आणि वारा असलेले दिवस"},
-      {"value": "pitta", "label_en": "Hot summer", "label_hi": "गर्मी", "label_mr": "उन्हाळा"},
-      {"value": "kapha", "label_en": "Damp and rainy weather", "label_hi": "नमी और बारिश", "label_mr": "दमट आणि पावसाळी हवामान"}
+      {
+        "value": "vata",
+        "label_en": "Cold and windy days",
+        "label_hi": "ठंड और हवा वाले दिन",
+        "label_mr": "थंड आणि वारा असलेले दिवस"
+      },
+      {
+        "value": "pitta",
+        "label_en": "Hot summer",
+        "label_hi": "गर्मी",
+        "label_mr": "उन्हाळा"
+      },
+      {
+        "value": "kapha",
+        "label_en": "Damp and rainy weather",
+        "label_hi": "नमी और बारिश",
+        "label_mr": "दमट आणि पावसाळी हवामान"
+      }
     ]
   },
-
   {
     "node_id": "pr_sara",
     "section": "dashavidha",
@@ -541,9 +1165,18 @@
     "prompt_en": "Sara (tissue excellence) — assessed on examination",
     "input_type": "choice",
     "options": [
-      {"value": "pravara", "label_en": "Pravara"},
-      {"value": "madhyama", "label_en": "Madhyama"},
-      {"value": "avara", "label_en": "Avara"}
+      {
+        "value": "pravara",
+        "label_en": "Pravara"
+      },
+      {
+        "value": "madhyama",
+        "label_en": "Madhyama"
+      },
+      {
+        "value": "avara",
+        "label_en": "Avara"
+      }
     ]
   },
   {
@@ -555,9 +1188,18 @@
     "prompt_en": "Samhanana (compactness of body) — assessed on examination",
     "input_type": "choice",
     "options": [
-      {"value": "pravara", "label_en": "Pravara"},
-      {"value": "madhyama", "label_en": "Madhyama"},
-      {"value": "avara", "label_en": "Avara"}
+      {
+        "value": "pravara",
+        "label_en": "Pravara"
+      },
+      {
+        "value": "madhyama",
+        "label_en": "Madhyama"
+      },
+      {
+        "value": "avara",
+        "label_en": "Avara"
+      }
     ]
   },
   {
@@ -578,10 +1220,226 @@
     "prompt_en": "Vikriti (current dosha imbalance) — practitioner judgement",
     "input_type": "multi",
     "options": [
-      {"value": "vata", "label_en": "Vata vriddhi"},
-      {"value": "pitta", "label_en": "Pitta vriddhi"},
-      {"value": "kapha", "label_en": "Kapha vriddhi"},
-      {"value": "sannipata", "label_en": "Sannipata"}
+      {
+        "value": "vata",
+        "label_en": "Vata vriddhi"
+      },
+      {
+        "value": "pitta",
+        "label_en": "Pitta vriddhi"
+      },
+      {
+        "value": "kapha",
+        "label_en": "Kapha vriddhi"
+      },
+      {
+        "value": "sannipata",
+        "label_en": "Sannipata"
+      }
+    ]
+  },
+  {
+    "node_id": "joint_exacerbating",
+    "section": "hpi",
+    "order_index": 33,
+    "complaint_tag": "joint_pain",
+    "socrates_slot": "exacerbating",
+    "prompt_en": "What makes it better or worse?",
+    "prompt_hi": "किस चीज़ से यह बेहतर या बदतर होता है?",
+    "prompt_mr": "कशामुळे ते बरे किंवा वाईट होते?",
+    "input_type": "multi",
+    "options": [
+      {
+        "value": "movement_worse",
+        "label_en": "Worse with movement",
+        "label_hi": "हिलने-डुलने से बदतर",
+        "label_mr": "हालचालीने वाईट होते"
+      },
+      {
+        "value": "rest_better",
+        "label_en": "Better with rest",
+        "label_hi": "आराम से बेहतर",
+        "label_mr": "विश्रांतीने बरे वाटते"
+      },
+      {
+        "value": "weight_worse",
+        "label_en": "Worse bearing weight",
+        "label_hi": "वज़न डालने से बदतर",
+        "label_mr": "वजन टाकल्याने वाईट होते"
+      },
+      {
+        "value": "none",
+        "label_en": "No clear pattern",
+        "label_hi": "कोई स्पष्ट पैटर्न नहीं",
+        "label_mr": "स्पष्ट नमुना नाही"
+      }
+    ]
+  },
+  {
+    "node_id": "chest_exacerbating",
+    "section": "hpi",
+    "order_index": 43,
+    "complaint_tag": "chest_pain",
+    "socrates_slot": "exacerbating",
+    "prompt_en": "What brings the pain on, and what eases it?",
+    "prompt_hi": "दर्द किस चीज़ से शुरू होता है, और किससे कम होता है?",
+    "prompt_mr": "वेदना कशामुळे सुरू होते, आणि कशाने कमी होते?",
+    "input_type": "multi",
+    "options": [
+      {
+        "value": "exertion_worse",
+        "label_en": "Worse on exertion",
+        "label_hi": "मेहनत करने से बदतर",
+        "label_mr": "श्रमाने वाईट होते"
+      },
+      {
+        "value": "rest_better",
+        "label_en": "Eases with rest",
+        "label_hi": "आराम से कम होता है",
+        "label_mr": "विश्रांतीने कमी होते"
+      },
+      {
+        "value": "breathing_worse",
+        "label_en": "Worse on deep breathing",
+        "label_hi": "गहरी साँस लेने से बदतर",
+        "label_mr": "दीर्घ श्वासाने वाईट होते"
+      },
+      {
+        "value": "none",
+        "label_en": "No clear pattern",
+        "label_hi": "कोई स्पष्ट पैटर्न नहीं",
+        "label_mr": "स्पष्ट नमुना नाही"
+      }
+    ]
+  },
+  {
+    "node_id": "abd_exacerbating",
+    "section": "hpi",
+    "order_index": 51,
+    "complaint_tag": "abdominal",
+    "socrates_slot": "exacerbating",
+    "prompt_en": "What makes the pain better or worse?",
+    "prompt_hi": "किस चीज़ से पेट का दर्द बेहतर या बदतर होता है?",
+    "prompt_mr": "कशामुळे पोटदुखी बरी किंवा वाईट होते?",
+    "input_type": "multi",
+    "options": [
+      {
+        "value": "food_worse",
+        "label_en": "Worse after eating",
+        "label_hi": "खाने के बाद बदतर",
+        "label_mr": "जेवणानंतर वाईट होते"
+      },
+      {
+        "value": "empty_worse",
+        "label_en": "Worse on an empty stomach",
+        "label_hi": "खाली पेट बदतर",
+        "label_mr": "रिकाम्या पोटी वाईट होते"
+      },
+      {
+        "value": "food_better",
+        "label_en": "Better after eating",
+        "label_hi": "खाने के बाद बेहतर",
+        "label_mr": "जेवणानंतर बरे वाटते"
+      },
+      {
+        "value": "none",
+        "label_en": "No clear pattern",
+        "label_hi": "कोई स्पष्ट पैटर्न नहीं",
+        "label_mr": "स्पष्ट नमुना नाही"
+      }
+    ]
+  },
+  {
+    "node_id": "breathless_exacerbating",
+    "section": "hpi",
+    "order_index": 72,
+    "complaint_tag": "breathless",
+    "socrates_slot": "exacerbating",
+    "prompt_en": "Does lying flat make it worse?",
+    "prompt_hi": "क्या लेटने से साँस फूलना बदतर हो जाता है?",
+    "prompt_mr": "झोपल्यावर श्वास घेण्यास त्रास वाढतो का?",
+    "input_type": "choice",
+    "options": [
+      {
+        "value": "yes",
+        "label_en": "Yes, worse lying flat",
+        "label_hi": "हाँ, लेटने से बदतर",
+        "label_mr": "होय, झोपल्यावर वाईट होते"
+      },
+      {
+        "value": "no",
+        "label_en": "No difference",
+        "label_hi": "कोई फ़र्क़ नहीं",
+        "label_mr": "फरक पडत नाही"
+      }
+    ]
+  },
+  {
+    "node_id": "headache_exacerbating",
+    "section": "hpi",
+    "order_index": 81,
+    "complaint_tag": "headache",
+    "socrates_slot": "exacerbating",
+    "prompt_en": "Does light, noise or movement make it worse?",
+    "prompt_hi": "क्या रोशनी, शोर या हिलने-डुलने से यह बदतर होता है?",
+    "prompt_mr": "प्रकाश, आवाज किंवा हालचालीने ते वाईट होते का?",
+    "input_type": "multi",
+    "options": [
+      {
+        "value": "light",
+        "label_en": "Worse with light",
+        "label_hi": "रोशनी से बदतर",
+        "label_mr": "प्रकाशाने वाईट होते"
+      },
+      {
+        "value": "noise",
+        "label_en": "Worse with noise",
+        "label_hi": "शोर से बदतर",
+        "label_mr": "आवाजाने वाईट होते"
+      },
+      {
+        "value": "movement",
+        "label_en": "Worse with movement",
+        "label_hi": "हिलने-डुलने से बदतर",
+        "label_mr": "हालचालीने वाईट होते"
+      },
+      {
+        "value": "none",
+        "label_en": "None of these",
+        "label_hi": "इनमें से कुछ नहीं",
+        "label_mr": "यापैकी काही नाही"
+      }
+    ]
+  },
+  {
+    "node_id": "skin_exacerbating",
+    "section": "hpi",
+    "order_index": 86,
+    "complaint_tag": "skin",
+    "socrates_slot": "exacerbating",
+    "prompt_en": "What makes it better or worse?",
+    "prompt_hi": "किस चीज़ से यह बेहतर या बदतर होता है?",
+    "prompt_mr": "कशामुळे ते बरे किंवा वाईट होते?",
+    "input_type": "multi",
+    "options": [
+      {
+        "value": "heat_worse",
+        "label_en": "Worse with heat or sweat",
+        "label_hi": "गर्मी या पसीने से बदतर",
+        "label_mr": "उष्णतेने किंवा घामाने वाईट होते"
+      },
+      {
+        "value": "specific_trigger",
+        "label_en": "Worse after a specific food, soap or fabric",
+        "label_hi": "किसी खास खाने, साबुन या कपड़े से बदतर",
+        "label_mr": "विशिष्ट अन्न, साबण किंवा कापडाने वाईट होते"
+      },
+      {
+        "value": "none",
+        "label_en": "No clear pattern",
+        "label_hi": "कोई स्पष्ट पैटर्न नहीं",
+        "label_mr": "स्पष्ट नमुना नाही"
+      }
     ]
   }
 ]

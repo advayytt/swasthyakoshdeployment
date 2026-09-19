@@ -108,7 +108,7 @@
     "consent_mode_ayush": "Ayurveda, Siddha or Unani",
     "consent_mode_ayush_sub": "Adds the Dashavidha Pariksha questions",
     "consent_mode_general": "General medicine",
-    "consent_mode_general_sub": "Standard history only",
+    "consent_mode_general_sub": "Structured SOCRATES history, no Dashavidha Pariksha",
     "consent_disagree": "I do not agree",
     "consent_agree": "I agree, begin",
     "documents_title": "Do you have papers from before?",
@@ -199,7 +199,9 @@
     "consent_detail_3": "You can withdraw permission at any time from the terminal, and the practitioner immediately loses access.",
     "consent_detail_4": "We keep your ABHA address and the last four digits of your phone number. We do not keep an Aadhaar number.",
     "consent_detail_5": "The recording of your voice is discarded once your answers are saved.",
-    "kiosk_options_instruction": "Tap one of these, or tap the microphone below to speak your answer."
+    "kiosk_options_instruction": "Tap one of these, or tap the microphone below to speak your answer.",
+    "kiosk_mode_badge_ayush": "Ayurveda assessment · includes Dashavidha Pariksha",
+    "kiosk_mode_badge_general": "General medicine · SOCRATES history"
   },
   "hi": {
     "_label": "हिंदी",
@@ -309,7 +311,7 @@
     "consent_mode_ayush": "आयुर्वेद, सिद्ध या यूनानी",
     "consent_mode_ayush_sub": "दशविध परीक्षा के प्रश्न जुड़ेंगे",
     "consent_mode_general": "सामान्य चिकित्सा",
-    "consent_mode_general_sub": "केवल सामान्य इतिहास",
+    "consent_mode_general_sub": "SOCRATES ढाँचे पर आधारित इतिहास, दशविध परीक्षा नहीं",
     "consent_disagree": "मैं सहमत नहीं हूँ",
     "consent_agree": "मैं सहमत हूँ, शुरू करें",
     "documents_title": "क्या आपके पास पहले के कागज़ हैं?",
@@ -400,7 +402,9 @@
     "consent_detail_3": "आप कभी भी इस टर्मिनल से अपनी अनुमति वापस ले सकते हैं, और डॉक्टर की पहुँच तुरंत बंद हो जाएगी।",
     "consent_detail_4": "हम आपका आभा पता और आपके फ़ोन नंबर के अंतिम चार अंक रखते हैं। हम आधार नंबर नहीं रखते।",
     "consent_detail_5": "आपकी आवाज़ की रिकॉर्डिंग आपके जवाब सुरक्षित होते ही हटा दी जाती है।",
-    "kiosk_options_instruction": "इनमें से किसी एक को चुनिए, या नीचे माइक दबाकर अपना जवाब बोलिए।"
+    "kiosk_options_instruction": "इनमें से किसी एक को चुनिए, या नीचे माइक दबाकर अपना जवाब बोलिए।",
+    "kiosk_mode_badge_ayush": "आयुर्वेद मूल्यांकन · दशविध परीक्षा शामिल",
+    "kiosk_mode_badge_general": "सामान्य चिकित्सा · SOCRATES इतिहास"
   },
   "mr": {
     "_label": "मराठी",
@@ -510,7 +514,7 @@
     "consent_mode_ayush": "आयुर्वेद, सिद्ध किंवा युनानी",
     "consent_mode_ayush_sub": "दशविध परीक्षेचे प्रश्न जोडले जातील",
     "consent_mode_general": "सर्वसाधारण वैद्यकशास्त्र",
-    "consent_mode_general_sub": "फक्त सर्वसाधारण इतिहास",
+    "consent_mode_general_sub": "SOCRATES चौकटीवर आधारित इतिहास, दशविध परीक्षा नाही",
     "consent_disagree": "मी सहमत नाही",
     "consent_agree": "मी सहमत आहे, सुरू करा",
     "documents_title": "तुमच्याकडे आधीचे कागद आहेत का?",
@@ -601,6 +605,8 @@
     "consent_detail_3": "तुम्ही या टर्मिनलवरून कधीही परवानगी मागे घेऊ शकता, आणि डॉक्टरांचा प्रवेश लगेच बंद होईल.",
     "consent_detail_4": "आम्ही तुमचा आभा पत्ता आणि फोन नंबरचे शेवटचे चार अंक ठेवतो. आम्ही आधार क्रमांक ठेवत नाही.",
     "consent_detail_5": "तुमच्या उत्तरांची नोंद झाल्यावर आवाजाची रेकॉर्डिंग काढून टाकली जाते.",
-    "kiosk_options_instruction": "यापैकी एक निवडा, किंवा खालील माइक दाबून तुमचे उत्तर बोला."
+    "kiosk_options_instruction": "यापैकी एक निवडा, किंवा खालील माइक दाबून तुमचे उत्तर बोला.",
+    "kiosk_mode_badge_ayush": "आयुर्वेद मूल्यांकन · दशविध परीक्षा समाविष्ट",
+    "kiosk_mode_badge_general": "सर्वसाधारण वैद्यकशास्त्र · SOCRATES इतिहास"
   }
 }

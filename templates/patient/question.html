@@ -14,7 +14,13 @@
      data-retry-error="{{ t('voice_retry_error') }}"
      data-listening-label="{{ t('voice_listening') }}">
 
-  <p class="section-name">{{ section_label }}</p>
+  <p class="section-name">
+    {{ section_label }}
+    <span class="mode-badge">
+      {% if case.mode == 'ayush' %}{{ t('kiosk_mode_badge_ayush') }}
+      {% else %}{{ t('kiosk_mode_badge_general') }}{% endif %}
+    </span>
+  </p>
   <h1>{{ prompt }}</h1>
   {% if lang != 'en' %}<p class="sub">{{ node.prompt_en }}</p>{% endif %}
 

@@ -175,6 +175,29 @@ def create_app(config_object=Config):
                 # practitioner table once.
                 print(f"\n  Auto-seed skipped: {type(exc).__name__}: {str(exc)[:180]}\n")
 
+            # Content sync (question ontology, NAMASTE codes, drug
+            # interactions) runs on EVERY boot, not gated behind an empty
+            # Doctor table like the block above. Those three seed_*
+            # functions are all add-or-backfill and skip anything already
+            # present (see seed.py's seed_ontology(), for instance, which
+            # only inserts a node_id it has not seen and only backfills a
+            # currently-blank socrates_slot) — so this is cheap and inert
+            # on a database that already matches. It exists because content
+            # in these three JSON files is expected to keep changing after
+            # a database has already been seeded once (a new SOCRATES
+            # question added to the ontology, a new NAMASTE code, a new
+            # drug pair), and on Vercel there is no shell to SSH into and
+            # run `python seed.py` by hand to pick that up — the only way
+            # a fix like that reaches a live deployment is for the app
+            # itself to re-apply it on the next cold start.
+            try:
+                from seed import seed_ontology, seed_terminology, seed_interactions
+                seed_ontology()
+                seed_terminology()
+                seed_interactions()
+            except Exception as exc:  # noqa: BLE001
+                print(f"\n  Content sync skipped: {type(exc).__name__}: {str(exc)[:180]}\n")
+
     return app
 
 

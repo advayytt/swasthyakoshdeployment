@@ -22,13 +22,29 @@ def _load(name):
 
 
 def seed_ontology():
-    existing = {n.node_id for n in QuestionNode.query.all()}
+    existing = {n.node_id: n for n in QuestionNode.query.all()}
     added = 0
+    backfilled = 0
     for row in _load("question_ontology.json"):
         if row["node_id"] in existing:
+            # Not a no-op: an ontology update can add a socrates_slot tag
+            # to a node that already exists in an already-seeded database
+            # (this happened for real — see joint_swelling, breathless_
+            # exertion and skin_spread, which shipped without a SOCRATES
+            # tag and were retagged later). seed_ontology() runs again on
+            # every boot where the Doctor table is non-empty (i.e. every
+            # boot after the first), so this is the one place such a fix
+            # can reach an already-seeded database without a manual reset.
+            # Deliberately narrow: only fills in a currently-blank
+            # socrates_slot, never overwrites one a practitioner may have
+            # set through /clinician/ontology, and touches no other field.
+            node = existing[row["node_id"]]
+            new_slot = row.get("socrates_slot")
+            if new_slot and not node.socrates_slot:
+                node.socrates_slot = new_slot
+                backfilled += 1
             continue
         node = QuestionNode(
-            order_index=row.get("order_index", 100),
             prompt_en=row["prompt_en"],
             prompt_hi=row.get("prompt_hi"),
             prompt_mr=row.get("prompt_mr"),
@@ -41,11 +57,15 @@ def seed_ontology():
             dashavidha_param=row.get("dashavidha_param"),
             practitioner_only=row.get("practitioner_only", False),
         )
+        node.order_index = row.get("order_index", 100)
         node.section = row["section"]
         setattr(node, "node_id", row["node_id"])
         db.session.add(node)
         added += 1
     db.session.commit()
+    if backfilled:
+        print(f"  Ontology sync: backfilled socrates_slot on {backfilled} "
+              f"existing question(s)")
     return added
 
 
